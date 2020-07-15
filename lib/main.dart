@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:overmark/pages/home_page.dart';
+import 'package:overmark/pages/main_page.dart';
 import 'package:overmark/themes/dark_theme.dart';
 import 'package:overmark/themes/light_theme.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         title: 'OverMark',
         color: Colors.black,
         home: ThemeConsumer(
-          child: HomePage(title: 'OverMark'),
+          child: MainPage(title: 'OverMark'),
         ),
       ),
     );
