@@ -10,7 +10,7 @@ AppTheme customDarkTheme() {
     data: ThemeData.dark().copyWith(
       brightness: Brightness.dark,
       primaryColor: Colors.black,
-      accentColor: Colors.amber,
+      accentColor: Colors.amber[300],
       textSelectionColor: Colors.blue[400],
       appBarTheme: AppBarTheme(elevation: 0),
       textTheme: TextTheme(headline6: TextStyle(color: Colors.white), bodyText2:TextStyle(color: Colors.grey)),
@@ -20,7 +20,7 @@ AppTheme customDarkTheme() {
       mainTextColor: Colors.white,
       secondaryTextColor: Colors.grey,
       defaultIconColor: Colors.white60,
-      accentIconColor: Colors.amber,
+      accentIconColor: Colors.amber[300],
       backgroundColor: Color(0xFF181613),
       defaultDetailColor: Colors.grey[900]
     ),
