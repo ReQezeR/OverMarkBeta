@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       saveThemesOnChange: true,
       loadThemeOnInit: true,
       defaultThemeId: 'dark_theme', 
+      // defaultThemeId: 'light_theme',
       themes: [
         customLightTheme(),
         customDarkTheme(),
