@@ -105,6 +105,7 @@ class _SettingsPageState extends State<SettingsPage>{
             onPressed: () async{
               print("Drop Table");
               widget.db.flushTable('Bookmarks');
+              widget.db.flushTable('Categories');
             },
           ),
         ],

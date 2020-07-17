@@ -35,7 +35,7 @@ class DbProvider{
       await db.execute('''
         CREATE TABLE Categories (
           id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-          name TEXT NOT NULL,
+          name TEXT NOT NULL UNIQUE,
           date TEXT NOT NULL
         )
         ''');
