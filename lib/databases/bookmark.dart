@@ -24,7 +24,7 @@ class Bookmark {
 }
 
   List<Bookmark> toBookmarks(List<Map<String, dynamic>> maps){
-      // Convert the List<Map<String, dynamic> into a List<Dog>.
+      // Convert the List<Map<String, dynamic> into a List<Bookmark>.
       return maps!=null?maps.length>0?List.generate(maps.length, (i) {
         return Bookmark(
           id: maps[i]['id'],
