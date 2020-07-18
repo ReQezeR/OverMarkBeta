@@ -21,6 +21,11 @@ class Bookmark {
   String toString() {
     return 'Bookmark{id: $id, categoryId: $categoryId, name: $name, url: $url, date: $date}';
   }
+
+  String getFilter(){
+    return id.toString();
+  }
+
 }
 
   List<Bookmark> toBookmarks(List<Map<String, dynamic>> maps){

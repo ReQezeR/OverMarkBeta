@@ -80,8 +80,8 @@ class DbProvider{
     return output;
     } on Exception catch (_) {
       _onCreate(_database, _databaseVersion);
+      return 0;
     }
-
   }
 
   // All of the rows are returned as a list of maps, where each map is 
@@ -92,6 +92,7 @@ class DbProvider{
       return await db.query(table);
     } on Exception catch (_) {
       _onCreate(_database, _databaseVersion);
+      return List();
     }
   }
 
@@ -101,6 +102,7 @@ class DbProvider{
       return await db.query(table, limit: n);
      } on Exception catch (_) {
       _onCreate(_database, _databaseVersion);
+      return List();
     }
   }
 
@@ -110,6 +112,17 @@ class DbProvider{
       return await db.rawQuery("SELECT * FROM $table ORDER BY datetime(date) DESC Limit $limit_n");
      } on Exception catch (_) {
       _onCreate(_database, _databaseVersion);
+      return List();
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> search(String table, String paramName, String paramValue) async {
+    Database db = await instance.database;
+    try{
+      return await db.query(table, where:'$paramName = ?', whereArgs: [paramValue]);
+    } on Exception catch (_) {
+      _onCreate(_database, _databaseVersion);
+      return List();
     }
   }
 
@@ -134,51 +147,4 @@ class DbProvider{
     Database db = await instance.database;
     return await db.delete(table, where: 'id = ?', whereArgs: [id]);
   }
-
-
-
-  // Future<void> updateBookmark(Bookmark bookmark, Future<Database> database) async {
-  //   // Get a reference to the database.
-  //   final db = await database;
-
-  //   // Update the given Dog.
-  //   await db.update(
-  //     'Bookmarks',
-  //     bookmark.toMap(),
-  //     // Ensure that the Dog has a matching id.
-  //     where: "id = ?",
-  //     // Pass the Dog's id as a whereArg to prevent SQL injection.
-  //     whereArgs: [bookmark.id],
-  //   );
-  // }
-  // Future<List<Bookmark>> bookmarks(Future<Database> database) async {
-  //     // Get a reference to the database.
-  //     final Database db = await database;
-  //     // Query the table for all The Dogs.
-  //     final List<Map<String, dynamic>> maps = await db.query('Bookmarks');
-
-  //     // Convert the List<Map<String, dynamic> into a List<Dog>.
-  //     return List.generate(maps.length, (i) {
-  //       return Bookmark(
-  //         id: maps[i]['id'],
-  //         categoryId: maps[i]['categoryId'],
-  //         name: maps[i]['name'],
-  //         url: maps[i]['url'],
-  //         date: maps[i]['date'],
-  //       );
-  //   });
-  // }
-  // Future<void> deleteBookmark(int id, Future<Database> database) async {
-  //   // Get a reference to the database.
-  //   final db = await database;
-
-  //   // Remove the Dog from the Database.
-  //   await db.delete(
-  //     'Bookmarks',
-  //     // Use a `where` clause to delete a specific dog.
-  //     where: "id = ?",
-  //     // Pass the Dog's id as a whereArg to prevent SQL injection.
-  //     whereArgs: [id],
-  //   );
-  // }
 }

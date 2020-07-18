@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage>{
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              itemCount: recent_bookmarks.length>=10?10:recent_bookmarks.length,
+              itemCount: recent_bookmarks.length>=5?5:recent_bookmarks.length,
               itemBuilder: (BuildContext context, int index) => 
               Container(
                 child: Padding(

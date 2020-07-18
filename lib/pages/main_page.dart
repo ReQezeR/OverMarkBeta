@@ -101,22 +101,25 @@ class _MainPageState extends State<MainPage>{
 
     return Scaffold(
       key: _scaffoldKey,
-      body: Container(
-        decoration: BoxDecoration(
-          // gradient: getGradient(ThemeProvider.themeOf(context).id == "dark_theme"?1:0),
-          color: Theme.of(context).primaryColor,
-        ),
+      body: InkWell(
+        onTap: (){FocusScope.of(context).unfocus();},
         child: Container(
-          child: PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              pageChanged(index);
-            },
-            children: <Widget>[
-              ThemeConsumer(child: ListPage(db: dbProvider)),
-              ThemeConsumer(child:HomePage(db: dbProvider)),
-              ThemeConsumer(child:SettingsPage(db: dbProvider)),
-            ],
+          decoration: BoxDecoration(
+            gradient: getGradient(ThemeProvider.themeOf(context).id == "dark_theme"?1:0),
+            // color: Theme.of(context).primaryColor,
+          ),
+          child: Container(
+            child: PageView(
+              controller: pageController,
+              onPageChanged: (index) {
+                pageChanged(index);
+              },
+              children: <Widget>[
+                ThemeConsumer(child: ListPage(db: dbProvider)),
+                ThemeConsumer(child:HomePage(db: dbProvider)),
+                ThemeConsumer(child:SettingsPage(db: dbProvider)),
+              ],
+            ),
           ),
         ),
       ),
