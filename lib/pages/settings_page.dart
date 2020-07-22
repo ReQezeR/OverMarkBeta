@@ -45,7 +45,7 @@ class _SettingsPageState extends State<SettingsPage>{
             onPressed: () {
               print("ADD +");
               String _date = new DateTime.now().toIso8601String();
-              widget.db.insert(Bookmark(categoryId:1, name: "XD", url:"XD_URL", date: _date).toMap(), 'Bookmarks');
+              widget.db.insert(Bookmark(categoryId:1, name: "XD", url:"XD_URL", date: _date, recentUpdate: _date).toMap(), 'Bookmarks');
             },
           ),
 
@@ -84,7 +84,7 @@ class _SettingsPageState extends State<SettingsPage>{
             ),
             onPressed: () async{
               print("GET Recent");
-              var temp = await widget.db.queryRecentRows('Bookmarks', 5);
+              var temp = await widget.db.queryRecentRows('Bookmarks', 'date', 5);
               printBookmarks(toBookmarks(temp));
             },
           ),

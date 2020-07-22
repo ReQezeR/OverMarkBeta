@@ -9,6 +9,7 @@ class CustomThemeOptions implements AppThemeOptions{
   final Color accentIconColor;
   final Color backgroundColor;
   final Color defaultDetailColor;
+  final Color inputFieldColor;
   CustomThemeOptions({
     this.surfaceColor,
     this.mainTextColor,
@@ -17,5 +18,6 @@ class CustomThemeOptions implements AppThemeOptions{
     this.accentIconColor:Colors.amber,
     this.backgroundColor,
     this.defaultDetailColor,
+    this.inputFieldColor,
   });
 }

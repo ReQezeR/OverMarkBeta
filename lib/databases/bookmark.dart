@@ -4,8 +4,9 @@ class Bookmark {
   final String name;
   final String url;
   final String date;
+  String recentUpdate;
 
-  Bookmark({this.id, this.categoryId, this.name, this.url, this.date});
+  Bookmark({this.id, this.categoryId, this.name, this.url, this.date, this.recentUpdate});
 
   Map<String, dynamic> toMap() {
     return {
@@ -14,12 +15,13 @@ class Bookmark {
       'name': name,
       'url': url,
       'date': date,
+      'recentUpdate': recentUpdate
     };
   }
 
   @override
   String toString() {
-    return 'Bookmark{id: $id, categoryId: $categoryId, name: $name, url: $url, date: $date}';
+    return 'Bookmark{id: $id, categoryId: $categoryId, name: $name, url: $url, date: $date, recentUpdate: $recentUpdate}';
   }
 
   String getFilter(){
@@ -37,6 +39,7 @@ class Bookmark {
           name: maps[i]['name'],
           url: maps[i]['url'],
           date: maps[i]['date'],
+          recentUpdate: maps[i]['recentUpdate']
         );
     }):List():List();
   }

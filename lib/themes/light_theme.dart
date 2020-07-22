@@ -17,6 +17,7 @@ AppTheme customLightTheme() {
     options: CustomThemeOptions(
       surfaceColor: Colors.grey[350],
       mainTextColor: Colors.black,
+      inputFieldColor: Colors.white30,
       secondaryTextColor: Colors.grey[800],
       backgroundColor: Colors.blueGrey[50],
       defaultIconColor: Colors.grey[800],

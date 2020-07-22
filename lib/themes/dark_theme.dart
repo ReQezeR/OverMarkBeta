@@ -18,6 +18,7 @@ AppTheme customDarkTheme() {
     options: CustomThemeOptions(
       surfaceColor: Color(0xFF222222),
       mainTextColor: Colors.white,
+      inputFieldColor: Colors.white30,
       secondaryTextColor: Colors.grey,
       defaultIconColor: Colors.white60,
       accentIconColor: Colors.amber[300],

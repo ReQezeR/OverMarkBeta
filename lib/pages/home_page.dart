@@ -3,6 +3,7 @@ import 'package:overmark/databases/bookmark.dart';
 import 'package:overmark/databases/category.dart';
 import 'package:overmark/databases/db_provider.dart';
 import 'package:overmark/themes/theme_options.dart';
+import 'package:overmark/tools/bookmark_form.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 
@@ -17,9 +18,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>{
   List<Bookmark> recent_bookmarks = new List();
   List<Category> categories = new List();
+  bool isBookmarkForm = false;
+  
+  void closeForm(){
+    // getData();
+    this.isBookmarkForm = false;
+    this.setState(() {});
+  }
 
   void getData() async {
-    var temp = await widget.db.queryRecentRows('Bookmarks', 5);
+    var temp = await widget.db.queryRecentRows('Bookmarks', 'date', 5);
     recent_bookmarks = toBookmarks(temp);
     var tempC = await widget.db.queryAllRows('Categories');
     this.categories = toCategories(tempC);
@@ -45,8 +53,6 @@ class _HomePageState extends State<HomePage>{
   Widget build(BuildContext context){
     return Container(
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.stretch,
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Column(
             children: <Widget>[
@@ -64,7 +70,7 @@ class _HomePageState extends State<HomePage>{
               ),
             ],
           ),
-          Container(
+          isBookmarkForm==false?Container(
             height: MediaQuery.of(context).size.height*0.054,
             padding: const EdgeInsets.fromLTRB(10,0,10,0),
             color: Colors.transparent,
@@ -99,17 +105,20 @@ class _HomePageState extends State<HomePage>{
                       child: Icon(Icons.add),
                       onPressed: () {
                         print("ADD +");
-                        String _date = new DateTime.now().toIso8601String();
-                        widget.db.insert(Bookmark(categoryId:1, name: "XD", url:"XD_URL", date: _date).toMap(), 'Bookmarks');
-                        this.getData();
+                        this.isBookmarkForm = true;
+                        this.setState(() {});
+                        // String _date = new DateTime.now().toIso8601String();
+                        // widget.db.insert(Bookmark(categoryId:1, name: "XD", url:"XD_URL", date: _date, recentUpdate: _date).toMap(), 'Bookmarks');
+                        // this.getData();
                       },
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-          recent_bookmarks.length>0?Container(
+          ):BookmarkForm(width: 500, height:550, db: widget.db, closeForm: this.closeForm,),
+          
+          isBookmarkForm==false?recent_bookmarks.length>0?Container(
             color: Theme.of(context).primaryColor.withOpacity(0.30),
             padding: const EdgeInsets.fromLTRB(10,10,10,10),
             child: ListView.builder(
@@ -127,7 +136,7 @@ class _HomePageState extends State<HomePage>{
                       padding: const EdgeInsets.all(20.0),
                       child: Center(
                         child: Text(
-                          recent_bookmarks[index].id.toString(),
+                          recent_bookmarks[index].name.toString(),
                           style: TextStyle(color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor),
                         )
                       ),
@@ -136,7 +145,7 @@ class _HomePageState extends State<HomePage>{
                 ),
               ),
             ),
-          ):Container(),
+          ):Container():Container(),
           Container(
             height: MediaQuery.of(context).size.height*0.05,
             color: Colors.transparent,
@@ -209,8 +218,12 @@ class _HomePageState extends State<HomePage>{
                           padding: const EdgeInsets.all(10.0),
                           child: Center(
                             child: Text(
-                              categories[index].id.toString()+" "+categories[index].name,
-                              style: TextStyle(color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor),
+                              categories[index].name,
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w300,
+                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                              ),
                             )
                           ),
                         ),

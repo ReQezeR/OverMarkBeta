@@ -33,7 +33,7 @@ class DbProvider{
   Future _onCreate(Database db, int version) async {
     try{    
       await db.execute('''
-        CREATE TABLE Categories (
+        CREATE TABLE Categories(
           id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
           name TEXT NOT NULL UNIQUE,
           date TEXT NOT NULL
@@ -45,12 +45,13 @@ class DbProvider{
 
     try{     
     await db.execute('''
-          CREATE TABLE Bookmarks (
+          CREATE TABLE Bookmarks(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             categoryId INTEGER NOT NULL,
             name TEXT NOT NULL,
             url TEXT NOT NULL,
             date TEXT NOT NULL,
+            recentUpdate TEXT NOT NULL,
             FOREIGN KEY(categoryId) REFERENCES Categories(id)
           )
           ''');
@@ -58,6 +59,7 @@ class DbProvider{
       print('Bookmarks już istnieje');
     }
   }
+
   void flushTable(String table) async {
     Database db = await instance.database;
     try{
@@ -106,10 +108,10 @@ class DbProvider{
     }
   }
 
-  Future<List<Map<String, dynamic>>> queryRecentRows(String table, int limit_n) async {
+  Future<List<Map<String, dynamic>>> queryRecentRows(String table, String by, int limitN) async {
     Database db = await instance.database;
     try{
-      return await db.rawQuery("SELECT * FROM $table ORDER BY datetime(date) DESC Limit $limit_n");
+      return await db.rawQuery("SELECT * FROM $table ORDER BY datetime($by) DESC Limit $limitN");
      } on Exception catch (_) {
       _onCreate(_database, _databaseVersion);
       return List();
