@@ -25,7 +25,7 @@ class Bookmark {
   }
 
   String getFilter(){
-    return id.toString();
+    return name.toString();
   }
 
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:overmark/databases/bookmark.dart';
 import 'package:overmark/databases/db_provider.dart';
 import 'package:overmark/themes/theme_options.dart';
@@ -16,7 +17,7 @@ class ListPage extends StatefulWidget {
   _ListPageState createState() => _ListPageState();
 }
 
-class _ListPageState extends State<ListPage>{
+class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
   List<Bookmark> bookmarks = new List();
   List<Bookmark> recentBookmarks = new List();
   TextEditingController _controller;
@@ -60,7 +61,7 @@ class _ListPageState extends State<ListPage>{
   }
 
   void searchForData() async{
-    var temp = await widget.db.search('Bookmarks', 'id', _controller.text);
+    var temp = await widget.db.search('Bookmarks', 'name', _controller.text);
     this.bookmarks = toBookmarks(temp);
     String _date = new DateTime.now().toIso8601String();
     for(Bookmark b in this.bookmarks){
@@ -120,7 +121,8 @@ class _ListPageState extends State<ListPage>{
         padding: const EdgeInsets.all(0.0),
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
-      ):Container(child: Text("Dodaj nową kategorie"),),
+      ):Container(height: 0,),
+      // ):Container(child: Text("Dodaj nową kategorie"),),
     );
   }
 
@@ -139,196 +141,208 @@ class _ListPageState extends State<ListPage>{
               ),
             ),
             child: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height*0.04,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.line_weight,
-                                size: 28,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Lista zakładek:",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25.0,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                                ),
-                              )),
-                          ],
-                        ),
-                        isForm==false?Container(
-                          padding: EdgeInsets.all(0),
-                          child: MaterialButton(
-                            padding: EdgeInsets.all(0),
-                            shape: CircleBorder(),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-                                borderRadius:BorderRadius.all(Radius.circular(20.0))
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Icon(Icons.add, color: Colors.grey[800],),
-                              )
-                            ),
-                            onPressed: () {
-                              print("open +");
-                              FocusScope.of(context).unfocus();
-                              isForm = true;
-                              this.setState(() {});
-                            },
-                          ),
-                        ):Container(),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width*0.90,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Material(
-                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).inputFieldColor,
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        child: InkWell(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          onTap: (){
-                            changeInputFocus();
-                          },
-                          child: Row(
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
                             children: <Widget>[
-                              Container(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(Icons.search, size: 30, color: Colors.blueAccent.withOpacity(0.8),),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Icon(
+                                  Icons.line_weight,
+                                  size: 28,
+                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
                                 ),
                               ),
-                              Expanded(
-                                  child: TextField(
-                                    onChanged: (param)=>onChange(),
-                                    controller: _controller,
-                                    decoration: new InputDecoration.collapsed(
-                                      hintText: 'Bookmark'
-                                    ),
-                                    autocorrect: false,
-                                    style: TextStyle(
-                                      decoration: TextDecoration.none,
-                                      fontSize: 22.0,
-                                      height: 1.0,
-                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,                 
-                                    ),
-                                    focusNode: inputFocusNode,
-                                    onTap: (){
-                                      changeInputFocus();
-                                    },
-                                    onSubmitted: (String value){
-                                      changeInputFocus();
-                                      searchForData();
-                                    }
-                                ),
-                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Lista zakładek:",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25.0,
+                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                  ),
+                                )),
                             ],
                           ),
-                        ),
+                          isForm==false?Container(
+                            padding: EdgeInsets.all(0),
+                            child: MaterialButton(
+                              padding: EdgeInsets.all(0),
+                              shape: CircleBorder(),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                                  borderRadius:BorderRadius.all(Radius.circular(20.0))
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Icon(Icons.add, color: Colors.grey[800],),
+                                )
+                              ),
+                              onPressed: () {
+                                print("open +");
+                                FocusScope.of(context).unfocus();
+                                isForm = true;
+                                this.setState(() {});
+                              },
+                            ),
+                          ):Container(),
+                        ],
                       ),
                     ),
-                  ),
-                  
-                ],
-              ),
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height*0.8,
-            child: Stack(
-              fit: StackFit.loose,
-              overflow: Overflow.clip,
-              children: <Widget>[
-                Container(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(0.0),
-                    physics: ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: bookmarks.length,
-                    itemBuilder: (BuildContext context, int index) => 
-                    Card(
-                      color: Theme.of(context).primaryColor.withOpacity(0.3),
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.9,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10.0,5.0,10.0,0.0),
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.fromLTRB(5,10,5,10),
+                        child: Material(
+                          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).inputFieldColor,
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          child: InkWell(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            onTap: (){
+                              changeInputFocus();
+                            },
                             child: Row(
                               children: <Widget>[
-                                Text(
-                                  bookmarks[index].id.toString(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: bookmarks[index].id%2==1?Colors.grey: Colors.black87,
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.search, size: 30, color: Colors.blueAccent.withOpacity(0.8),),
                                   ),
                                 ),
                                 Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      bookmarks[index].name.toString(),
-                                      style: TextStyle(
-                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 15,
+                                    child: TextField(
+                                      onChanged: (param)=>onChange(),
+                                      controller: _controller,
+                                      decoration: new InputDecoration.collapsed(
+                                        hintText: 'Bookmark'
                                       ),
-                                    )
-                                  )
+                                      autocorrect: false,
+                                      style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        fontSize: 22.0,
+                                        height: 1.0,
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,                 
+                                      ),
+                                      focusNode: inputFocusNode,
+                                      onTap: (){
+                                        changeInputFocus();
+                                      },
+                                      onSubmitted: (String value){
+                                        changeInputFocus();
+                                        searchForData();
+                                      }
+                                  ),
                                 ),
                               ],
                             ),
-                        )),
+                          ),
+                        ),
+                      ),
+                    ),
+                    
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+              child: Container(
+              child: Stack(
+                fit: StackFit.loose,
+                overflow: Overflow.clip,
+                children: <Widget>[
+                  Container(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(0.0),
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: bookmarks.length,
+                      itemBuilder: (BuildContext context, int index) => 
+                      Card(
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10.0,1.0,10.0,1.0),
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    bookmarks[index].id.toString(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: bookmarks[index].id%2==1?Colors.grey: Colors.black87,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        bookmarks[index].name.toString(),
+                                        style: TextStyle(
+                                          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 15,
+                                        ),
+                                      )
+                                    )
+                                  ),
+                                  Container(
+                                    child: InkWell(
+                                      child: Icon(
+                                        Icons.content_copy,
+                                        color: Colors.grey,
+                                      ),
+                                      onLongPress: (){Clipboard.setData(ClipboardData(text: bookmarks[index].url.toString()));},
+                                      onTap: (){Clipboard.setData(ClipboardData(text: bookmarks[index].url.toString()));},
+                                    ),
+                                  )
+                                ],
+                              ),
+                          )),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                isForm?Positioned(
-                  top: 5,
-                  left: (MediaQuery.of(context).size.width-400)/4,
-                  right: (MediaQuery.of(context).size.width-400)/4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      width: 400,
-                      // height: 550,
-                      child: BookmarkForm(width: 400, height:550, db: widget.db, closeForm: this.closeForm,),
+                  isForm?Positioned(
+                    top: 5,
+                    left: (MediaQuery.of(context).size.width-400)/4,
+                    right: (MediaQuery.of(context).size.width-400)/4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
+                        width: 400,
+                        // height: 550,
+                        child: BookmarkForm(width: 400, height:550, db: widget.db, closeForm: this.closeForm,),
+                      ),
                     ),
-                  ),
-                ):Container(),
+                  ):Container(),
 
-                isInput?Container(
-                  decoration: BoxDecoration(
-                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
-                    borderRadius:BorderRadius.only(
-                      bottomLeft: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0),
+                  isInput?Container(
+                    decoration: BoxDecoration(
+                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                      borderRadius:BorderRadius.only(
+                        bottomLeft: Radius.circular(20.0),
+                        bottomRight: Radius.circular(20.0),
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20,0,20,15),
-                      child: buildSuggestions(context),
-                    ),
-                ):Container(),
-              ],
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20,10,20,15),
+                        child: buildSuggestions(context),
+                      ),
+                  ):Container(),
+                ],
+              ),
             ),
           ),
         ],
@@ -336,5 +350,7 @@ class _ListPageState extends State<ListPage>{
     );
   }
 
+  @override
+  bool get wantKeepAlive => true;
 }
 

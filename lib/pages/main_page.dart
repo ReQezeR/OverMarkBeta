@@ -106,8 +106,8 @@ class _MainPageState extends State<MainPage>{
         onTap: (){FocusScope.of(context).unfocus();},
         child: Container(
           decoration: BoxDecoration(
-            // gradient: getGradient(ThemeProvider.themeOf(context).id == "dark_theme"?1:0),
-            color: Theme.of(context).primaryColor,
+            gradient: getGradient(ThemeProvider.themeOf(context).id == "dark_theme"?1:0),
+            // color: Theme.of(context).primaryColor,
           ),
           child: Container(
             child: PageView(

@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage>{
   }
 
   void getData() async {
-    var temp = await widget.db.queryRecentRows('Bookmarks', 'date', 5);
+    var temp = await widget.db.queryRecentRows('Bookmarks', 'recentUpdate', 5);
     recent_bookmarks = toBookmarks(temp);
     var tempC = await widget.db.queryAllRows('Categories');
     this.categories = toCategories(tempC);
@@ -51,25 +51,98 @@ class _HomePageState extends State<HomePage>{
 
   @override
   Widget build(BuildContext context){
+    bool isInput = false;
+    bool isForm = false;
     return Container(
       child: Column(
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Container(
-                color: Theme.of(context).primaryColor.withOpacity(0.5),
-                height: MediaQuery.of(context).size.height*0.08,
-                child: SafeArea(
-                  child: Center(child: Text("Over Mark", style: TextStyle(fontSize: 35.0, color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor),)),
+          Container(
+            decoration: BoxDecoration(
+              color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+              borderRadius:BorderRadius.only(
+                bottomLeft: isInput?Radius.circular(0.0): Radius.circular(20.0),
+                bottomRight: isInput?Radius.circular(0.0): Radius.circular(20.0),
+              ),
+            ),
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height*0.13,
+                  
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Icon(
+                                Icons.bookmark_border,
+                                size: 45,
+                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              "Over Mark",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w200,
+                                fontSize: 55.0,
+                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      isForm==false?Container(
+                        padding: EdgeInsets.all(0),
+                        child: MaterialButton(
+                          padding: EdgeInsets.all(0),
+                          shape: CircleBorder(),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                              borderRadius:BorderRadius.all(Radius.circular(20.0))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Icon(Icons.card_travel, color: Colors.grey[800],),
+                            )
+                          ),
+                          onPressed: () {
+                            print("side menu");
+                          },
+                        ),
+                      ):Container(),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-                height: 2.0,
-                child: Container(),
-              ),
-            ],
+              ],
+            ),
           ),
+      ),
+          // Column(
+          //   children: <Widget>[
+          //     Container(
+          //       color: Theme.of(context).primaryColor.withOpacity(0.5),
+          //       height: MediaQuery.of(context).size.height*0.08,
+          //       child: SafeArea(
+          //         child: Center(child: Text("Over Mark", style: TextStyle(fontSize: 35.0, color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor),)),
+          //       ),
+          //     ),
+          //     Container(
+          //       color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+          //       height: 2.0,
+          //       child: Container(),
+          //     ),
+          //   ],
+          // ),
+
           isBookmarkForm==false?Container(
             height: MediaQuery.of(context).size.height*0.054,
             padding: const EdgeInsets.fromLTRB(10,0,10,0),
@@ -97,23 +170,23 @@ class _HomePageState extends State<HomePage>{
                       )),
                   ],
                 ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FlatButton(
-                      color: Colors.orangeAccent,
-                      child: Icon(Icons.add),
-                      onPressed: () {
-                        print("ADD +");
-                        this.isBookmarkForm = true;
-                        this.setState(() {});
-                        // String _date = new DateTime.now().toIso8601String();
-                        // widget.db.insert(Bookmark(categoryId:1, name: "XD", url:"XD_URL", date: _date, recentUpdate: _date).toMap(), 'Bookmarks');
-                        // this.getData();
-                      },
-                    ),
-                  ),
-                ),
+                // Container(
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: FlatButton(
+                //       color: Colors.orangeAccent,
+                //       child: Icon(Icons.add),
+                //       onPressed: () {
+                //         print("ADD +");
+                //         this.isBookmarkForm = true;
+                //         this.setState(() {});
+                //         // String _date = new DateTime.now().toIso8601String();
+                //         // widget.db.insert(Bookmark(categoryId:1, name: "XD", url:"XD_URL", date: _date, recentUpdate: _date).toMap(), 'Bookmarks');
+                //         // this.getData();
+                //       },
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ):BookmarkForm(width: 500, height:550, db: widget.db, closeForm: this.closeForm,),
@@ -174,21 +247,21 @@ class _HomePageState extends State<HomePage>{
                     ),
                   ],
                 ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FlatButton(
-                      color: Colors.cyan,
-                      child: Icon(Icons.add),
-                      onPressed: () {
-                        print("ADD +");
-                        String _date = new DateTime.now().toIso8601String();
-                        widget.db.insert(Category(name: "Motoryzacja "+_date, date: _date).toMap(), 'Categories');
-                        this.getData();
-                      },
-                    ),
-                  ),
-                ),
+                // Container(
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: FlatButton(
+                //       color: Colors.cyan,
+                //       child: Icon(Icons.add),
+                //       onPressed: () {
+                //         print("ADD +");
+                //         String _date = new DateTime.now().toIso8601String();
+                //         widget.db.insert(Category(name: "Motoryzacja "+_date, date: _date).toMap(), 'Categories');
+                //         this.getData();
+                //       },
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
