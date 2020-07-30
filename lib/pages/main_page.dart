@@ -1,10 +1,13 @@
+import 'dart:math';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:overmark/databases/db_provider.dart';
 import 'package:overmark/pages/home_page.dart';
 import 'package:overmark/pages/list_page.dart';
 import 'package:overmark/pages/settings_page.dart';
 import 'package:overmark/themes/theme_options.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:overmark/tools/custom_pageview.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 
@@ -16,9 +19,12 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage>{
+class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final dbProvider = DbProvider.instance;
+  ValueNotifier<double> _notifier = ValueNotifier<double>(0);
+  AnimationController _indicatorController;
+  NotifyingPageView customPageView;
 
   int _currentIndex = 1;
   int _targetIndex = 1;
@@ -29,9 +35,26 @@ class _MainPageState extends State<MainPage>{
     keepPage: true,
   );
 
+  @override
+  void initState() {
+    initPageView();
+    _initAnimationController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _indicatorController.dispose();
+    _notifier?.dispose();
+    super.dispose();
+  }
+
+  void _initAnimationController(){
+    _indicatorController = AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+  }
+
   void pageChanged(int index) {
     setState(() {
-      // print("pageChanged "+_currentIndex.toString()+" -> "+index.toString());
       _currentIndex = index;
       if(index == _targetIndex && _isjump == true){
         _targetIndex = index;
@@ -42,13 +65,15 @@ class _MainPageState extends State<MainPage>{
       }
     });
   }
+
   void bottomTapped(int index) {
     setState(() {
       _targetIndex = index;
       _isjump = true;
-      pageController.animateToPage(index, duration: Duration(milliseconds: 400), curve: Curves.ease);
+      customPageView..navigateToPage(index);
     });
   }
+
   LinearGradient getGradient(int version){
     // light_gradient - 0
      // dark_gradient  - 1
@@ -94,6 +119,68 @@ class _MainPageState extends State<MainPage>{
     else return darkGradient;
   }
 
+  double getOffset(int pageNumber){
+    if(pageNumber == 0){
+      if(_notifier.value<=0.5 && _notifier.value>=0.0){
+        return _notifier.value;
+      }
+      else return 0.5;
+    }
+    else if(pageNumber == 1){
+      if(_notifier.value<=1.5 && _notifier.value>0.5){
+        return _notifier.value-pageNumber;
+      }
+      else return 0.0;
+    }
+    else if(pageNumber == 2){
+      if(_notifier.value<=2.0 && _notifier.value>1.5){
+        return _notifier.value-pageNumber;
+      }
+      else return 0.0;
+    }
+
+    print(_notifier.value);
+    return 0.0;
+  }
+
+  void initPageView(){
+    customPageView = NotifyingPageView(
+      currentPage: _currentIndex,
+      notifier: _notifier,
+      pageChanged: pageChanged,
+      pages: <Widget>[
+        ThemeConsumer(child: ListPage(db: dbProvider)),
+        ThemeConsumer(child:HomePage(db: dbProvider)),
+        ThemeConsumer(child:SettingsPage(db: dbProvider)),
+      ],
+    );
+  }
+
+  BottomNavigationBarItem getCustomItem({int id, Color accent, Color detail, IconData icon, Color iconColor}){
+    return BottomNavigationBarItem(
+      title: Container(
+        width: 40,
+        height: 10,
+        child: _currentIndex==id?AnimatedBuilder(
+          animation: _notifier,
+          builder: (context, _) {
+            return Transform.translate(
+              offset: Offset(15 * getOffset(id), -8),
+              child:  Icon(
+                Icons.arrow_drop_up, 
+                color: _targetIndex==id? iconColor: Colors.transparent,
+              ),
+            );
+          },
+        ):Container(),
+      ),
+      icon: Padding(
+        padding: const EdgeInsets.fromLTRB(0,10,0,0),
+        child: _targetIndex==id?Icon(icon, color: iconColor,): Icon(icon, color: detail),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Color accent =  ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor;
@@ -105,22 +192,13 @@ class _MainPageState extends State<MainPage>{
       body: InkWell(
         onTap: (){FocusScope.of(context).unfocus();},
         child: Container(
-          decoration: BoxDecoration(
+          decoration: ThemeProvider.themeOf(context).id=='dark_theme'?BoxDecoration(
             gradient: getGradient(ThemeProvider.themeOf(context).id == "dark_theme"?1:0),
-            // color: Theme.of(context).primaryColor,
+          ):BoxDecoration(
+            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
           ),
           child: Container(
-            child: PageView(
-              controller: pageController,
-              onPageChanged: (index) {
-                pageChanged(index);
-              },
-              children: <Widget>[
-                ThemeConsumer(child: ListPage(db: dbProvider)),
-                ThemeConsumer(child:HomePage(db: dbProvider)),
-                ThemeConsumer(child:SettingsPage(db: dbProvider)),
-              ],
-            ),
+            child: customPageView,
           ),
         ),
       ),
@@ -128,44 +206,13 @@ class _MainPageState extends State<MainPage>{
         currentIndex: _currentIndex,
         backgroundColor: Theme.of(context).primaryColor,
         type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: true,
+        selectedFontSize: 5.0,
+        unselectedFontSize: 5.0,
         items: [
-          BottomNavigationBarItem(
-            title: Container(
-              child: Icon(Icons.arrow_drop_up, 
-              color: _targetIndex==0? Colors.blue[400]: Colors.transparent,
-              ),
-            ),
-            icon: Padding(
-              padding: const EdgeInsets.fromLTRB(0,10,0,0),
-              child: _targetIndex==0?Icon(Icons.view_list, color: accent,): Icon(Icons.view_list, color: detail),
-            ),
-          ),
-
-          BottomNavigationBarItem(
-            title: Container(
-              child: Icon(
-                Icons.arrow_drop_up, 
-                color: _targetIndex==1? Colors.blue[400]: Colors.transparent,
-              )
-            ),
-            icon: Padding(
-              padding: const EdgeInsets.fromLTRB(0,10,0,0),
-              child:_targetIndex==1?Icon(Icons.home, color: accent,): Icon(Icons.home, color: detail),
-            )
-          ),
-
-          BottomNavigationBarItem(
-            title: Container(
-              child: Icon(
-                Icons.arrow_drop_up, 
-                color: _targetIndex==2? Colors.blue[400]: Colors.transparent,
-              )
-            ),
-            icon: Padding(
-              padding: const EdgeInsets.fromLTRB(0,10,0,0),
-              child: _targetIndex==2?Icon(Icons.settings,color: accent,): Icon(Icons.settings, color: detail),
-            ),
-          ),
+          getCustomItem(id: 0,accent: accent, detail: detail, icon: Icons.line_weight, iconColor: Colors.blue[400]),
+          getCustomItem(id: 1,accent: accent, detail: detail, icon: Icons.home, iconColor: Colors.amber),
+          getCustomItem(id: 2,accent: accent, detail: detail, icon: Icons.settings, iconColor: Colors.red),
         ],
         onTap: (index) {
           bottomTapped(index);

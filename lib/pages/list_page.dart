@@ -96,7 +96,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
         : bookmarks.where((p) => p.getFilter().toLowerCase().startsWith(query.toLowerCase())).toList();
 
     return Container(
-      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).surfaceColor,
+      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
       child: suggestionList.length>0?ListView.builder(
         itemBuilder: (context, index) => ListTile(
               onTap: () {
@@ -122,7 +122,6 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
       ):Container(height: 0,),
-      // ):Container(child: Text("Dodaj nową kategorie"),),
     );
   }
 
@@ -134,7 +133,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
         children: [
           Container(
             decoration: BoxDecoration(
-              color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+              color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor:Theme.of(context).primaryColor,
               borderRadius:BorderRadius.only(
                 bottomLeft: isInput?Radius.circular(0.0): Radius.circular(20.0),
                 bottomRight: isInput?Radius.circular(0.0): Radius.circular(20.0),
@@ -142,6 +141,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
             ),
             child: SafeArea(
               child: Container(
+                height: MediaQuery.of(context).size.height*0.14,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -202,7 +202,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(5,10,5,10),
                         child: Material(
-                          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).inputFieldColor,
+                          color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).surfaceColor:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                           child: InkWell(
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -219,27 +219,27 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
                                   ),
                                 ),
                                 Expanded(
-                                    child: TextField(
-                                      onChanged: (param)=>onChange(),
-                                      controller: _controller,
-                                      decoration: new InputDecoration.collapsed(
-                                        hintText: 'Bookmark'
-                                      ),
-                                      autocorrect: false,
-                                      style: TextStyle(
-                                        decoration: TextDecoration.none,
-                                        fontSize: 22.0,
-                                        height: 1.0,
-                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,                 
-                                      ),
-                                      focusNode: inputFocusNode,
-                                      onTap: (){
-                                        changeInputFocus();
-                                      },
-                                      onSubmitted: (String value){
-                                        changeInputFocus();
-                                        searchForData();
-                                      }
+                                  child: TextField(
+                                    onChanged: (param)=>onChange(),
+                                    controller: _controller,
+                                    decoration: new InputDecoration.collapsed(
+                                      hintText: 'Bookmark'
+                                    ),
+                                    autocorrect: false,
+                                    style: TextStyle(
+                                      decoration: TextDecoration.none,
+                                      fontSize: 22.0,
+                                      height: 1.0,
+                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,                 
+                                    ),
+                                    focusNode: inputFocusNode,
+                                    onTap: (){
+                                      changeInputFocus();
+                                    },
+                                    onSubmitted: (String value){
+                                      changeInputFocus();
+                                      searchForData();
+                                    }
                                   ),
                                 ),
                               ],
@@ -248,7 +248,6 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
                         ),
                       ),
                     ),
-                    
                   ],
                 ),
               ),
@@ -268,49 +267,58 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
                       scrollDirection: Axis.vertical,
                       itemCount: bookmarks.length,
                       itemBuilder: (BuildContext context, int index) => 
-                      Card(
-                        color: Theme.of(context).primaryColor.withOpacity(0.3),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10.0,1.0,10.0,1.0),
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    bookmarks[index].id.toString(),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                      color: bookmarks[index].id%2==1?Colors.grey: Colors.black87,
-                                    ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10.0,1.0,10.0,1.0),
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  bookmarks[index].id.toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    color: bookmarks[index].id%2==1?Colors.grey: Colors.black87,
                                   ),
-                                  Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        bookmarks[index].name.toString(),
-                                        style: TextStyle(
-                                          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 15,
-                                        ),
-                                      )
-                                    )
-                                  ),
-                                  Container(
-                                    child: InkWell(
-                                      child: Icon(
-                                        Icons.content_copy,
-                                        color: Colors.grey,
+                                ),
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      bookmarks[index].name.toString(),
+                                      style: TextStyle(
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
                                       ),
-                                      onLongPress: (){Clipboard.setData(ClipboardData(text: bookmarks[index].url.toString()));},
-                                      onTap: (){Clipboard.setData(ClipboardData(text: bookmarks[index].url.toString()));},
-                                    ),
+                                    )
                                   )
-                                ],
-                              ),
-                          )),
-                        ),
+                                ),
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      bookmarks[index].url.toString(),
+                                      style: TextStyle(
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 15,
+                                      ),
+                                    )
+                                  )
+                                ),
+                                Container(
+                                  child: InkWell(
+                                    child: Icon(
+                                      Icons.content_copy,
+                                      color: Colors.grey,
+                                    ),
+                                    onLongPress: (){Clipboard.setData(ClipboardData(text: bookmarks[index].url.toString()));},
+                                    onTap: (){Clipboard.setData(ClipboardData(text: bookmarks[index].url.toString()));},
+                                  ),
+                                )
+                              ],
+                            ),
+                        )),
                       ),
                     ),
                   ),
@@ -322,7 +330,6 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
                         width: 400,
-                        // height: 550,
                         child: BookmarkForm(width: 400, height:550, db: widget.db, closeForm: this.closeForm,),
                       ),
                     ),
@@ -330,7 +337,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
 
                   isInput?Container(
                     decoration: BoxDecoration(
-                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                      color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor:Theme.of(context).primaryColor,
                       borderRadius:BorderRadius.only(
                         bottomLeft: Radius.circular(20.0),
                         bottomRight: Radius.circular(20.0),

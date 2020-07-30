@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage>{
   bool isBookmarkForm = false;
   
   void closeForm(){
-    // getData();
     this.isBookmarkForm = false;
     this.setState(() {});
   }
@@ -58,7 +57,7 @@ class _HomePageState extends State<HomePage>{
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-              color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+              color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor:Theme.of(context).primaryColor,
               borderRadius:BorderRadius.only(
                 bottomLeft: isInput?Radius.circular(0.0): Radius.circular(20.0),
                 bottomRight: isInput?Radius.circular(0.0): Radius.circular(20.0),
@@ -69,8 +68,7 @@ class _HomePageState extends State<HomePage>{
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  height: MediaQuery.of(context).size.height*0.13,
-                  
+                  height: MediaQuery.of(context).size.height*0.14,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
