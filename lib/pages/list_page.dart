@@ -1,11 +1,11 @@
-import 'dart:io';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:overmark/databases/bookmark.dart';
 import 'package:overmark/databases/db_provider.dart';
 import 'package:overmark/themes/theme_options.dart';
 import 'package:overmark/tools/bookmark_form.dart';
+import 'package:overmark/tools/custom_listtile.dart';
+import 'package:overmark/tools/rotate_trans.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 
@@ -17,7 +17,7 @@ class ListPage extends StatefulWidget {
   _ListPageState createState() => _ListPageState();
 }
 
-class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
+class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin{
   List<Bookmark> bookmarks = new List();
   List<Bookmark> recentBookmarks = new List();
   TextEditingController _controller;
@@ -26,13 +26,19 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
   bool isResult = false;
   bool isForm = false;
 
+  AnimationController _refreshController;
+  Animation<double> _refreshAnimation;
+
   @override
   void initState(){
+    this._refreshController = AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    this._refreshAnimation = Tween<double>(begin: 0, end: pi + pi).animate(_refreshController);
     this.getData();
     super.initState();
-     _controller = TextEditingController();
-     inputFocusNode.addListener(()=>toogleInputFlag());
+    _controller = TextEditingController();
+    inputFocusNode.addListener(()=>toogleInputFlag());
   }
+  
   void toogleInputFlag(){
     if(isInput) this.isInput=false;
     else this.isInput=true;
@@ -47,6 +53,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
 
   @override
   void dispose() {
+    _refreshController.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -99,24 +106,24 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
       color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
       child: suggestionList.length>0?ListView.builder(
         itemBuilder: (context, index) => ListTile(
-              onTap: () {
-                query = suggestionList[index].getFilter();
-                _controller.text = query;
-                this.setState(() {});
-              },
-              leading: Icon(Icons.label_important),
-              title: RichText(
-                text: TextSpan(
-                    text: suggestionList[index].getFilter().substring(0, query.length),
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                          text: suggestionList[index].getFilter().substring(query.length),
-                          style: TextStyle(color: Colors.grey))
-                    ]),
-              ),
-            ),
+          onTap: () {
+            query = suggestionList[index].getFilter();
+            _controller.text = query;
+            this.setState(() {});
+          },
+          leading: Icon(Icons.label_important),
+          title: RichText(
+            text: TextSpan(
+                text: suggestionList[index].getFilter().substring(0, query.length),
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+                children: [
+                  TextSpan(
+                      text: suggestionList[index].getFilter().substring(query.length),
+                      style: TextStyle(color: Colors.grey))
+                ]),
+          ),
+        ),
         itemCount: suggestionList.length<4?suggestionList.length:4,
         padding: const EdgeInsets.all(0.0),
         physics: ClampingScrollPhysics(),
@@ -126,7 +133,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,51 +156,89 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
+                          Expanded(
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Icon(
+                                    Icons.line_weight,
+                                    size: 28,
+                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Lista zakładek:",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25.0,
+                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                    ),
+                                  )),
+                              ],
+                            ),
+                          ),
                           Row(
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Icon(
-                                  Icons.line_weight,
-                                  size: 28,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Lista zakładek:",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25.0,
-                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                              isForm==false?Container(
+                                padding: EdgeInsets.all(0),
+                                child: InkWell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                                        borderRadius:BorderRadius.all(Radius.circular(20.0))
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Icon(Icons.add, color: Colors.grey[800],),
+                                      )
+                                    ),
                                   ),
-                                )),
+                                  onTap: () {
+                                    print("open +");
+                                    FocusScope.of(context).unfocus();
+                                    isForm = true;
+                                    this.setState(() {});
+                                  },
+                                ),
+                              ):Container(),
+                              Container(
+                                padding: EdgeInsets.all(0),
+                                child: InkWell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                                        color: Colors.blue[500],
+                                        borderRadius:BorderRadius.all(Radius.circular(20.0))
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: RotateTrans(
+                                          Icon(
+                                            Icons.autorenew,
+                                            color: Colors.grey[800],
+                                          ),
+                                          _refreshAnimation
+                                        ),
+                                      )
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    print("refresh");
+                                    _refreshController.forward(from: 0);
+                                    getData();
+                                    this.setState(() {});
+                                  },
+                                ),
+                              )
                             ],
                           ),
-                          isForm==false?Container(
-                            padding: EdgeInsets.all(0),
-                            child: MaterialButton(
-                              padding: EdgeInsets.all(0),
-                              shape: CircleBorder(),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-                                  borderRadius:BorderRadius.all(Radius.circular(20.0))
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Icon(Icons.add, color: Colors.grey[800],),
-                                )
-                              ),
-                              onPressed: () {
-                                print("open +");
-                                FocusScope.of(context).unfocus();
-                                isForm = true;
-                                this.setState(() {});
-                              },
-                            ),
-                          ):Container(),
                         ],
                       ),
                     ),
@@ -242,6 +287,19 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
                                     }
                                   ),
                                 ),
+                                _controller.text.length>0?InkWell(
+                                  onTap: (){
+                                    _controller.text="";
+                                    this.setState(() {});
+                                  },
+                                    child: Container(
+                                    alignment: Alignment.center,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(Icons.clear, size: 30, color: Colors.redAccent.withOpacity(0.8),),
+                                    ),
+                                  ),
+                                ):Container(),
                               ],
                             ),
                           ),
@@ -267,59 +325,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin{
                       scrollDirection: Axis.vertical,
                       itemCount: bookmarks.length,
                       itemBuilder: (BuildContext context, int index) => 
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10.0,1.0,10.0,1.0),
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  bookmarks[index].id.toString(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: bookmarks[index].id%2==1?Colors.grey: Colors.black87,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      bookmarks[index].name.toString(),
-                                      style: TextStyle(
-                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15,
-                                      ),
-                                    )
-                                  )
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      bookmarks[index].url.toString(),
-                                      style: TextStyle(
-                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 15,
-                                      ),
-                                    )
-                                  )
-                                ),
-                                Container(
-                                  child: InkWell(
-                                    child: Icon(
-                                      Icons.content_copy,
-                                      color: Colors.grey,
-                                    ),
-                                    onLongPress: (){Clipboard.setData(ClipboardData(text: bookmarks[index].url.toString()));},
-                                    onTap: (){Clipboard.setData(ClipboardData(text: bookmarks[index].url.toString()));},
-                                  ),
-                                )
-                              ],
-                            ),
-                        )),
-                      ),
+                      CustomListTile(bookmark: bookmarks[index]),
                     ),
                   ),
                   isForm?Positioned(
