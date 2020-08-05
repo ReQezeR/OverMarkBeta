@@ -194,6 +194,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
         child: Container(
           decoration: ThemeProvider.themeOf(context).id=='dark_theme'?BoxDecoration(
             gradient: getGradient(ThemeProvider.themeOf(context).id == "dark_theme"?1:0),
+            // color: Theme.of(context).primaryColor,
           ):BoxDecoration(
             color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
           ),
