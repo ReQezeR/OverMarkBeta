@@ -4,6 +4,7 @@ import 'package:overmark/databases/category.dart';
 import 'package:overmark/databases/db_provider.dart';
 import 'package:overmark/themes/theme_options.dart';
 import 'package:overmark/tools/bookmark_form.dart';
+import 'package:overmark/tools/custom_listtile.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 
@@ -143,7 +144,7 @@ class _HomePageState extends State<HomePage>{
 
           isBookmarkForm==false?Container(
             height: MediaQuery.of(context).size.height*0.054,
-            padding: const EdgeInsets.fromLTRB(10,0,10,0),
+            padding: const EdgeInsets.fromLTRB(20,5,10,0),
             color: Colors.transparent,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -151,14 +152,14 @@ class _HomePageState extends State<HomePage>{
                 Row(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Icon(
                         Icons.view_week,
                         color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Text(
                         "Ostatnie zakładki:",
                         style: TextStyle(
@@ -190,51 +191,52 @@ class _HomePageState extends State<HomePage>{
           ):BookmarkForm(width: 500, height:550, db: widget.db, closeForm: this.closeForm,),
           
           isBookmarkForm==false?recent_bookmarks.length>0?Container(
-            color: Theme.of(context).primaryColor.withOpacity(0.30),
-            padding: const EdgeInsets.fromLTRB(10,10,10,10),
+            // color: Theme.of(context).primaryColor.withOpacity(0.30),
+            padding: const EdgeInsets.fromLTRB(1,0,1,5),
             child: ListView.builder(
               padding: const EdgeInsets.all(0.0),
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              itemCount: recent_bookmarks.length>=5?5:recent_bookmarks.length,
+              itemCount: recent_bookmarks.length>=3?3:recent_bookmarks.length,
               itemBuilder: (BuildContext context, int index) => 
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Center(
-                        child: Text(
-                          recent_bookmarks[index].name.toString(),
-                          style: TextStyle(color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor),
-                        )
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              CustomListTile(bookmark: recent_bookmarks[index]),
+              // Container(
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(2.0),
+              //     child: Card(
+              //       child: Padding(
+              //         padding: const EdgeInsets.all(20.0),
+              //         child: Center(
+              //           child: Text(
+              //             recent_bookmarks[index].name.toString(),
+              //             style: TextStyle(color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor),
+              //           )
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ),
           ):Container():Container(),
           Container(
             height: MediaQuery.of(context).size.height*0.05,
             color: Colors.transparent,
-            padding: const EdgeInsets.fromLTRB(10,0,10,0),
+            padding: const EdgeInsets.fromLTRB(20,0,10,5),
             child: Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Row(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Icon(
                         Icons.view_week,
                         color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Text(
                         "Kategorie:",
                         style: TextStyle(
