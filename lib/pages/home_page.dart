@@ -70,54 +70,57 @@ class _HomePageState extends State<HomePage>{
               children: <Widget>[
                 Container(
                   height: MediaQuery.of(context).size.height*0.14,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Stack(
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Icon(
-                                Icons.bookmark_border,
-                                size: 45,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-                              ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Icon(
+                              Icons.bookmark_border,
+                              size: 45,
+                              color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
                             ),
                           ),
-                          Container(
-                            child: Text(
-                              "Over Mark",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w200,
-                                fontSize: 55.0,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      isForm==false?Container(
-                        padding: EdgeInsets.all(0),
-                        child: MaterialButton(
-                          padding: EdgeInsets.all(0),
-                          shape: CircleBorder(),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-                              borderRadius:BorderRadius.all(Radius.circular(20.0))
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Icon(Icons.card_travel, color: Colors.grey[800],),
-                            )
-                          ),
-                          onPressed: () {
-                            print("side menu");
-                          },
                         ),
-                      ):Container(),
+                      ),
+                      Container(
+                        child: Center(
+                          child: Text(
+                            "Over Mark",
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w200,
+                              fontSize: 55.0,
+                              color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                            ),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: isForm==false?Container(
+                          padding: EdgeInsets.all(0),
+                          child: MaterialButton(
+                            padding: EdgeInsets.all(0),
+                            shape: CircleBorder(),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                                borderRadius:BorderRadius.all(Radius.circular(20.0))
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Icon(Icons.card_travel, color: Colors.grey[800],),
+                              )
+                            ),
+                            onPressed: () {
+                              print("side menu");
+                            },
+                          ),
+                        ):Container(),
+                      ),
                     ],
                   ),
                 ),
@@ -166,7 +169,8 @@ class _HomePageState extends State<HomePage>{
                           fontSize: 25.0,
                           color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                         ),
-                      )),
+                      )
+                    ),
                   ],
                 ),
                 // Container(

@@ -111,7 +111,10 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
             _controller.text = query;
             this.setState(() {});
           },
-          leading: Icon(Icons.label_important),
+          leading: Icon(
+            Icons.label_important,
+            color: Colors.blue,
+          ),
           title: RichText(
             text: TextSpan(
                 text: suggestionList[index].getFilter().substring(0, query.length),
@@ -164,7 +167,8 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                                   child: Icon(
                                     Icons.line_weight,
                                     size: 28,
-                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                                    // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                                    color: Colors.blue,
                                   ),
                                 ),
                                 Padding(
@@ -172,7 +176,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                                   child: Text(
                                     "Lista zakładek:",
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 25.0,
                                       color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                     ),

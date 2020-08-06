@@ -22,7 +22,8 @@ AppTheme customLightTheme() {
       backgroundColor: Colors.blueGrey[50],
       defaultIconColor: Colors.grey[800],
       accentIconColor: Colors.amber[700],
-      defaultDetailColor: Colors.grey[300]
+      defaultDetailColor: Colors.grey[300],
+      isGradientEnabled: false,
     ),
   );
 }

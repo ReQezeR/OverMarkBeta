@@ -10,6 +10,7 @@ class CustomThemeOptions implements AppThemeOptions{
   final Color backgroundColor;
   final Color defaultDetailColor;
   final Color inputFieldColor;
+  final bool isGradientEnabled;
   CustomThemeOptions({
     this.surfaceColor,
     this.mainTextColor,
@@ -19,5 +20,6 @@ class CustomThemeOptions implements AppThemeOptions{
     this.backgroundColor,
     this.defaultDetailColor,
     this.inputFieldColor,
+    this.isGradientEnabled,
   });
 }

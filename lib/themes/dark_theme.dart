@@ -23,7 +23,8 @@ AppTheme customDarkTheme() {
       defaultIconColor: Colors.white60,
       accentIconColor: Colors.amber[300],
       backgroundColor: Color(0xFF181613),
-      defaultDetailColor: Colors.grey[400]
+      defaultDetailColor: Colors.grey[400],
+      isGradientEnabled: true,
     ),
   );
 }

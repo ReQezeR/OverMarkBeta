@@ -29,6 +29,16 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
   int _currentIndex = 1;
   int _targetIndex = 1;
   bool _isjump = false;
+  bool isGradient = false;
+  bool isInit= false;
+
+  void toogleGradientState(){
+    isGradient = !isGradient;
+    setState(() {});
+  }
+  bool getGradientState(){
+    return isGradient;
+  }
 
   PageController pageController = PageController(
     initialPage: 1,
@@ -151,7 +161,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
       pages: <Widget>[
         ThemeConsumer(child: ListPage(db: dbProvider)),
         ThemeConsumer(child:HomePage(db: dbProvider)),
-        ThemeConsumer(child:SettingsPage(db: dbProvider)),
+        ThemeConsumer(child:SettingsPage(db: dbProvider, toogleGradientState: toogleGradientState, getGradientState: getGradientState,)),
       ],
     );
   }
@@ -185,6 +195,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     Color accent =  ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor;
     Color detail =  ThemeProvider.optionsOf<CustomThemeOptions>(context).defaultDetailColor;
+    isInit?isInit = true:isGradient = ThemeProvider.optionsOf<CustomThemeOptions>(context).isGradientEnabled;
+    isInit = true;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -192,9 +204,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
       body: InkWell(
         onTap: (){FocusScope.of(context).unfocus();},
         child: Container(
-          decoration: ThemeProvider.themeOf(context).id=='dark_theme'?BoxDecoration(
+          decoration: isGradient?BoxDecoration(
             gradient: getGradient(ThemeProvider.themeOf(context).id == "dark_theme"?1:0),
-            // color: Theme.of(context).primaryColor,
+          ):ThemeProvider.themeOf(context).id == "dark_theme"?BoxDecoration(
+            color: Theme.of(context).primaryColor,
           ):BoxDecoration(
             color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
           ),

@@ -32,7 +32,7 @@ class _CustomListTileState extends State<CustomListTile>{
         child:Padding(
           padding: const EdgeInsets.fromLTRB(1.0,1.0,1.0,1.0),
           child: Card(
-            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+            color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(15.0,10.0,15.0,10.0),
               child: Column(
@@ -41,19 +41,23 @@ class _CustomListTileState extends State<CustomListTile>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        widget.bookmark.id.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          color: widget.bookmark.id%2==1?Colors.grey: Colors.grey[200],
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(5,10,5,10),
+                          child: Text(
+                            widget.bookmark.id.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: Theme.of(context).brightness == Brightness.light?Colors.black:widget.bookmark.id%2==1?Colors.grey: Colors.grey[200],
+                            ),
+                          ),
                         ),
                       ),
                       Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(20.0,0.0,20.0,0.0),
+                            padding: const EdgeInsets.fromLTRB(10.0,0.0,10.0,0.0),
                             child: Container(
-                            // color: Colors.grey[800],
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
@@ -62,7 +66,7 @@ class _CustomListTileState extends State<CustomListTile>{
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child: Container(
-                                      color: Colors.grey[800],
+                                      color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.grey[800],
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
@@ -99,7 +103,7 @@ class _CustomListTileState extends State<CustomListTile>{
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child: Container(
-                                      color: Colors.grey[800],
+                                      color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.grey[800],
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
@@ -154,36 +158,44 @@ class _CustomListTileState extends State<CustomListTile>{
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Card(
-                            color: Colors.blue,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
-                              child:InkWell(
-                                child: Text(
-                                  "Open Website",
-                                  style: TextStyle(
-                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15,
-                                  ),
+                          Expanded(
+                            child: Card(
+                              color: Colors.blue,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
+                                child:InkWell(
+                                  child: Center(
+                                    child: Text(
+                                      "Open Website",
+                                      style: TextStyle(
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  )
                                 )
-                              )
+                              ),
                             ),
                           ),
-                          Card(
-                            color: Colors.green,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
-                              child:InkWell(
-                                child: Text(
-                                  "Show Details",
-                                  style: TextStyle(
-                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15,
-                                  ),
+                          Expanded(
+                            child: Card(
+                              color: Colors.green,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
+                                child:InkWell(
+                                  child: Center(
+                                    child: Text(
+                                      "Show Details",
+                                      style: TextStyle(
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  )
                                 )
-                              )
+                              ),
                             ),
                           ),
                         ],
