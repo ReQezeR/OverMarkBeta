@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:overmark/databases/bookmark.dart';
 import 'package:overmark/databases/db_provider.dart';
 import 'package:overmark/themes/theme_options.dart';
@@ -68,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage>{
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Icon(
-                            Icons.settings,
+                            SimpleLineIcons.settings,
                             size: 45,
                             color: Colors.red,
                           ),
@@ -87,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage>{
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Container(
-                  color: Colors.black38,
+                  color: Theme.of(context).brightness == Brightness.light?Colors.white: Colors.black38,
                   width: MediaQuery.of(context).size.width*0.9,
                   child: InkWell(
                     onTap: (){
@@ -100,7 +101,8 @@ class _SettingsPageState extends State<SettingsPage>{
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Icon(
-                            Icons.lightbulb_outline,
+                            SimpleLineIcons.bulb,
+                            size: 25,
                             color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
                           ),
                         ),
@@ -129,7 +131,7 @@ class _SettingsPageState extends State<SettingsPage>{
                   ),
                 ),
                 Container(
-                  color: Colors.black38,
+                  color: Theme.of(context).brightness == Brightness.light?Colors.white: Colors.black38,
                   width: MediaQuery.of(context).size.width*0.9,
                   child: InkWell(
                     onTap: (){
@@ -143,6 +145,7 @@ class _SettingsPageState extends State<SettingsPage>{
                           padding: const EdgeInsets.all(20.0),
                           child: Icon(
                             Icons.palette,
+                            size: 25,
                             color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
                           ),
                         ),
@@ -173,9 +176,9 @@ class _SettingsPageState extends State<SettingsPage>{
                 Row(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.only(left: 20.0, right: 10.0),
                       child: Icon(
-                        Icons.view_week,
+                         SimpleLineIcons.layers,
                         color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
                       ),
                     ),
@@ -190,84 +193,109 @@ class _SettingsPageState extends State<SettingsPage>{
                       )),
                   ],
                 ),
-                FlatButton(
-                  padding: const EdgeInsets.all(20.0),
-                  color: Colors.limeAccent[700],
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Icon(Icons.add),
+
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FlatButton(
+                               padding: const EdgeInsets.all(20.0),
+                        color: Colors.limeAccent[700],
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Icon(Icons.add),
+                            ),
+                            Text("Insert", style: TextStyle(fontSize: 25),),
+                          ],
+                        ),
+                        onPressed: () {
+                          print("ADD +");
+                          String _date = new DateTime.now().toIso8601String();
+                          widget.db.insert(Bookmark(categoryId:1, name: "XD", url:"XD_URL", date: _date, recentUpdate: _date).toMap(), 'Bookmarks');
+                        },
                       ),
-                      Text("Insert", style: TextStyle(fontSize: 25),),
-                    ],
-                  ),
-                  onPressed: () {
-                    print("ADD +");
-                    String _date = new DateTime.now().toIso8601String();
-                    widget.db.insert(Bookmark(categoryId:1, name: "XD", url:"XD_URL", date: _date, recentUpdate: _date).toMap(), 'Bookmarks');
-                  },
+                    ),
+                  ],
                 ),
 
-                FlatButton(
-                  padding: const EdgeInsets.all(20.0),
-                  color: Colors.blueAccent[700],
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Icon(Icons.list),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FlatButton(
+                        padding: const EdgeInsets.all(20.0),
+                        color: Colors.blueAccent[700],
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Icon(Icons.list),
+                            ),
+                            Text("Querry All", style: TextStyle(fontSize: 25),),
+                          ],
+                        ),
+                        onPressed: () async{
+                          print("GET ALL");
+                          var temp = await widget.db.queryAllRows('Bookmarks');
+                          printBookmarks(toBookmarks(temp));
+                        },
                       ),
-                      Text("Querry All", style: TextStyle(fontSize: 25),),
-                    ],
-                  ),
-                  onPressed: () async{
-                    print("GET ALL");
-                    var temp = await widget.db.queryAllRows('Bookmarks');
-                    printBookmarks(toBookmarks(temp));
-                  },
+                    ),
+                  ],
                 ),
 
-                FlatButton(
-                  padding: const EdgeInsets.all(20.0),
-                  color: Colors.orangeAccent[700],
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Icon(Icons.list),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FlatButton(
+                        padding: const EdgeInsets.all(20.0),
+                        color: Colors.orangeAccent[700],
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Icon(Icons.list),
+                            ),
+                            Text("Querry Recent", style: TextStyle(fontSize: 25),),
+                          ],
+                        ),
+                        onPressed: () async{
+                          print("GET Recent");
+                          var temp = await widget.db.queryRecentRows('Bookmarks', 'date', 5);
+                          printBookmarks(toBookmarks(temp));
+                        },
                       ),
-                      Text("Querry Recent", style: TextStyle(fontSize: 25),),
-                    ],
-                  ),
-                  onPressed: () async{
-                    print("GET Recent");
-                    var temp = await widget.db.queryRecentRows('Bookmarks', 'date', 5);
-                    printBookmarks(toBookmarks(temp));
-                  },
+                    ),
+                  ],
                 ),
 
-                FlatButton(
-                  padding: const EdgeInsets.all(20.0),
-                  color: Colors.redAccent[700],
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Icon(Icons.remove),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FlatButton(
+                        padding: const EdgeInsets.all(20.0),
+                        color: Colors.redAccent[700],
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Icon(Icons.remove),
+                            ),
+                            Text("Drop", style: TextStyle(fontSize: 25),),
+                          ],
+                        ),
+                        onPressed: () async{
+                          print("Drop Table");
+                          widget.db.flushTable('Bookmarks');
+                          widget.db.flushTable('Categories');
+                        },
                       ),
-                      Text("Drop", style: TextStyle(fontSize: 25),),
-                    ],
-                  ),
-                  onPressed: () async{
-                    print("Drop Table");
-                    widget.db.flushTable('Bookmarks');
-                    widget.db.flushTable('Categories');
-                  },
+                    ),
+                  ],
                 ),
               ],
             ),

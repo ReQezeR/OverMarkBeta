@@ -23,6 +23,7 @@ environment:
 dependencies:
   theme_provider: ^0.3.3
   path_provider: ^1.5.1
+  flutter_icons: ^1.1.0
   
   flutter:
     sdk: flutter

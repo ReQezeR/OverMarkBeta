@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:overmark/databases/bookmark.dart';
 import 'package:overmark/themes/theme_options.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -71,12 +72,16 @@ class _CustomListTileState extends State<CustomListTile>{
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                                          textBaseline: TextBaseline.alphabetic,
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.fromLTRB(0,5,5,5),
                                               child: Icon(
-                                                Icons.title,
+                                                MaterialCommunityIcons.format_title,
                                                 size: 15,
+                                                color: Theme.of(context).brightness == Brightness.light?Colors.black:ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
                                               ),
                                             ),
                                             Expanded(
@@ -86,7 +91,7 @@ class _CustomListTileState extends State<CustomListTile>{
                                                   style: TextStyle(
                                                     color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
                                                     fontWeight: FontWeight.w400,
-                                                    fontSize: 17,
+                                                    fontSize: 15,
                                                   ),
                                                   maxLines: 1,
                                                 )
@@ -107,12 +112,16 @@ class _CustomListTileState extends State<CustomListTile>{
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                                          textBaseline: TextBaseline.alphabetic,
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.fromLTRB(0,5,5,5),
                                               child: Icon(
-                                                Icons.insert_link,
+                                                SimpleLineIcons.link,
                                                 size: 15,
+                                                color: Theme.of(context).brightness == Brightness.light?Colors.black:ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
                                               ),
                                             ),
                                             Expanded(
@@ -121,8 +130,8 @@ class _CustomListTileState extends State<CustomListTile>{
                                                   widget.bookmark.url.toString(),
                                                   style: TextStyle(
                                                     color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                                    fontWeight: FontWeight.w300,
-                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 15,
                                                   ),
                                                   maxLines: 1,
                                                 )
@@ -136,8 +145,8 @@ class _CustomListTileState extends State<CustomListTile>{
                                 ),
                               ],
                             ),
-                        ),
                           ),
+                        ),
                       ),
 
                       Container(

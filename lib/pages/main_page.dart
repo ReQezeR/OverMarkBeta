@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:overmark/databases/db_provider.dart';
 import 'package:overmark/pages/home_page.dart';
 import 'package:overmark/pages/list_page.dart';
@@ -91,14 +92,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        Color(0xAF6C7192), 
-        Color(0xAF4A6B76),
+        Color(0xDFFFFFFF), 
         Color(0x2F486C7C),
-        Color(0xDF575E86),
+        Color(0x2F486C7C),
+        Color(0xDFFFFFFF),
       ],
       stops: [
         0,
-        0.4,
+        0.6,
         0.9,
         1
       ],

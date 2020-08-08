@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:overmark/databases/bookmark.dart';
 import 'package:overmark/databases/category.dart';
 import 'package:overmark/databases/db_provider.dart';
@@ -153,16 +154,20 @@ class _HomePageState extends State<HomePage>{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Icon(
-                        Icons.view_week,
+                        SimpleLineIcons.fire,
+                        size: 25,
                         color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Text(
                         "Ostatnie zakładki:",
                         style: TextStyle(
@@ -228,19 +233,25 @@ class _HomePageState extends State<HomePage>{
             color: Colors.transparent,
             padding: const EdgeInsets.fromLTRB(20,0,10,5),
             child: Row(
-               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Icon(
-                        Icons.view_week,
-                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                      child: Container(
+                        child: Icon(
+                          SimpleLineIcons.folder,
+                          size: 25,
+                          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Text(
                         "Kategorie:",
                         style: TextStyle(
@@ -291,6 +302,7 @@ class _HomePageState extends State<HomePage>{
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Card(
+                        color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Center(
