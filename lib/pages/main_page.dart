@@ -7,6 +7,7 @@ import 'package:overmark/databases/db_provider.dart';
 import 'package:overmark/pages/home_page.dart';
 import 'package:overmark/pages/list_page.dart';
 import 'package:overmark/pages/settings_page.dart';
+import 'package:overmark/pages/web_page.dart';
 import 'package:overmark/themes/theme_options.dart';
 import 'package:overmark/tools/custom_pageview.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -62,6 +63,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
 
   void _initAnimationController(){
     _indicatorController = AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+  }
+
+  void openWebPage(String url) async{
+    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeConsumer(child: WebPage(url: url))));
   }
 
   void pageChanged(int index) {
@@ -160,8 +165,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
       notifier: _notifier,
       pageChanged: pageChanged,
       pages: <Widget>[
-        ThemeConsumer(child: ListPage(db: dbProvider)),
-        ThemeConsumer(child:HomePage(db: dbProvider)),
+        ThemeConsumer(child: ListPage(db: dbProvider, openWebPage: openWebPage,)),
+        ThemeConsumer(child:HomePage(db: dbProvider, openWebPage: openWebPage,)),
         ThemeConsumer(child:SettingsPage(db: dbProvider, toogleGradientState: toogleGradientState, getGradientState: getGradientState,)),
       ],
     );

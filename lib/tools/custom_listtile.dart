@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -6,8 +8,10 @@ import 'package:overmark/themes/theme_options.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class CustomListTile extends StatefulWidget {
-  CustomListTile({Key key, this.bookmark}) : super(key: key);
+  CustomListTile({Key key, this.bookmark, this.openWebPage, this.onChange}) : super(key: key);
   final Bookmark bookmark;
+  final Function(String)openWebPage;
+  final Function onChange;
 
   @override
   _CustomListTileState createState() => _CustomListTileState();
@@ -15,17 +19,39 @@ class CustomListTile extends StatefulWidget {
 
 class _CustomListTileState extends State<CustomListTile>{
   bool isOpen = false;
+  int openTileID = 0;
+  
+  @override
+  void initState() {
+    super.initState();
+    checkTile();
+  }
+
+  void checkTile(){
+    openTileID = widget.onChange(id:-1);
+    if(widget.bookmark.id == openTileID){
+      isOpen = true;
+    }
+    else{
+      isOpen = false;
+    }
+  }
 
   void toogleTile(){
     if(isOpen){
       isOpen = false;
+      openTileID = widget.onChange(id:0);
     }
-    else isOpen = true;
+    else {
+      isOpen = true;
+      openTileID = widget.onChange(id: widget.bookmark.id);
+    }
     setState(() {});
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    checkTile();
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -168,12 +194,17 @@ class _CustomListTileState extends State<CustomListTile>{
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Expanded(
-                            child: Card(
-                              color: Colors.blue,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
-                                child:InkWell(
-                                  child: Center(
+                            child: InkWell(
+                              onTap: () =>widget.openWebPage(widget.bookmark.url.toString()),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  side: BorderSide(color: Colors.blue, width: 3)
+                                ),
+                                color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor:Colors.blue,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
+                                  child:Center(
                                     child: Text(
                                       "Open Website",
                                       style: TextStyle(
@@ -183,17 +214,21 @@ class _CustomListTileState extends State<CustomListTile>{
                                       ),
                                     ),
                                   )
-                                )
+                                ),
                               ),
                             ),
                           ),
                           Expanded(
-                            child: Card(
-                              color: Colors.green,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
-                                child:InkWell(
-                                  child: Center(
+                            child: InkWell(
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  side: BorderSide(color: Colors.green, width: 3)
+                                ),
+                                color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor:Colors.green,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
+                                  child:Center(
                                     child: Text(
                                       "Show Details",
                                       style: TextStyle(
@@ -203,7 +238,7 @@ class _CustomListTileState extends State<CustomListTile>{
                                       ),
                                     ),
                                   )
-                                )
+                                ),
                               ),
                             ),
                           ),

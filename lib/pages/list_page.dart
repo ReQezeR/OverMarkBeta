@@ -10,8 +10,9 @@ import 'package:theme_provider/theme_provider.dart';
 
 
 class ListPage extends StatefulWidget {
-  ListPage({Key key, this.db}) : super(key: key);
+  ListPage({Key key, this.db, this.openWebPage}) : super(key: key);
   final DbProvider db;
+  final Function(String)openWebPage;
 
   @override
   _ListPageState createState() => _ListPageState();
@@ -26,6 +27,8 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
   bool isResult = false;
   bool isForm = false;
 
+  int openTileID = 0;
+
   AnimationController _refreshController;
   Animation<double> _refreshAnimation;
 
@@ -37,6 +40,25 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
     super.initState();
     _controller = TextEditingController();
     inputFocusNode.addListener(()=>toogleInputFlag());
+  }
+
+  int toogleOpenTile({int id:-1}){
+    if(id == 0){
+      this.isForm = false;
+      FocusScope.of(context).unfocus();
+      this.openTileID = 0;
+      setState(() {});
+    }
+    else if(id == -1){
+      return this.openTileID;
+    }
+    else{
+      this.isForm = false;
+      FocusScope.of(context).unfocus();
+      this.openTileID = id;
+      setState(() {});
+    }
+    return openTileID;
   }
   
   void toogleInputFlag(){
@@ -193,12 +215,15 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                                        color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.transparent:ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
                                         borderRadius:BorderRadius.all(Radius.circular(20.0))
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(5.0),
-                                        child: Icon(Icons.add, color: Colors.grey[800],),
+                                        child: Icon(
+                                          Icons.add, 
+                                          color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor:Colors.white,
+                                        ),
                                       )
                                     ),
                                   ),
@@ -214,11 +239,10 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                                 padding: EdgeInsets.all(0),
                                 child: InkWell(
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                    padding: const EdgeInsets.fromLTRB(10, 0, 20, 0),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-                                        color: Colors.blue[500],
+                                        color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.transparent:Colors.green[500],
                                         borderRadius:BorderRadius.all(Radius.circular(20.0))
                                       ),
                                       child: Padding(
@@ -226,7 +250,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                                         child: RotateTrans(
                                           Icon(
                                             Icons.autorenew,
-                                            color: Colors.grey[800],
+                                            color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.green[500]:Colors.white,
                                           ),
                                           _refreshAnimation
                                         ),
@@ -329,7 +353,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                       scrollDirection: Axis.vertical,
                       itemCount: bookmarks.length,
                       itemBuilder: (BuildContext context, int index) => 
-                      CustomListTile(bookmark: bookmarks[index]),
+                      CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage, onChange: toogleOpenTile),
                     ),
                   ),
                   isForm?Positioned(

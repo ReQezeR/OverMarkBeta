@@ -31,9 +31,9 @@ class _BookmarkFormState extends State<BookmarkForm>{
     categoryField = CustomCategoryField(width: widget.width, height: widget.height, name: "Kategoria", icon: Icons.category, db: widget.db, validate:categoryFieldValidation);
     return Container(
        decoration: BoxDecoration(
-        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+        color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.grey[900]:Colors.white,
         borderRadius:BorderRadius.all(Radius.circular(20.0)),
-        border: Border.all(width: 2)
+        border: Border.all(width: 1)
       ),
       width: widget.width,
       // height: widget.height,
@@ -43,38 +43,57 @@ class _BookmarkFormState extends State<BookmarkForm>{
           child: Column(
             children: <Widget>[
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Dodaj nową zakładkę",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 25.0,
-                          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.amber,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Dodaj nową zakładkę",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 25.0,
+                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                ),
+                              )
+                            ),
+                          ],
                         ),
-                      )
+                      ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      child: InkWell(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius:BorderRadius.all(Radius.circular(20.0))
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        child: InkWell(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:BorderRadius.all(Radius.circular(20.0))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Icon(Icons.clear),
+                            )
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Icon(Icons.clear),
-                          )
+                          onTap: () {
+                            print("close +");
+                            FocusScope.of(context).unfocus();
+                            widget.closeForm();
+                            this.setState(() {});
+                          },
                         ),
-                        onTap: () {
-                          print("close +");
-                          FocusScope.of(context).unfocus();
-                          widget.closeForm();
-                          this.setState(() {});
-                        },
                       ),
                     ),
                   ],
@@ -95,6 +114,7 @@ class _BookmarkFormState extends State<BookmarkForm>{
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: RaisedButton(
+                  color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.amber:Colors.blue,
                   onPressed: () async{
                     bool validationFlag = true;
                     if(nameField.textData.length==0){
@@ -134,7 +154,14 @@ class _BookmarkFormState extends State<BookmarkForm>{
                     widget.closeForm();
                     this.setState(() {});
                   },
-                  child: Text('Submit'),
+                  child: Text(
+                    'Dodaj',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 20.0,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -199,16 +226,19 @@ class _CustomInputFieldState extends State<CustomInputField>{
   @override
   Widget build(BuildContext context) {
     Color fieldStatusColor = Colors.red;
+    Color activeColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.amber:Colors.blue;
+    Color activeTextColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.white:Colors.black;
+
     return Container(
       decoration: BoxDecoration(
         color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
         borderRadius:BorderRadius.all(Radius.circular(10.0)),
-        border: Border.all(width: 2, color: widget.validate?isInput?Colors.cyan[600]:Colors.black26:fieldStatusColor)
+        border: Border.all(width: 1, color: widget.validate?isInput?activeColor:Colors.black26:fieldStatusColor)
       ),
       width: widget.width*0.8,
       height: widget.height*0.10,
       child: Material(
-          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).inputFieldColor,
+          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
           shadowColor: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           child: InkWell(
@@ -224,7 +254,7 @@ class _CustomInputFieldState extends State<CustomInputField>{
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(
                       widget.icon,
-                      color: widget.validate?isInput?Colors.cyan[700]:ThemeProvider.optionsOf<CustomThemeOptions>(context).defaultIconColor:fieldStatusColor,
+                      color: widget.validate?isInput?activeColor:ThemeProvider.optionsOf<CustomThemeOptions>(context).defaultIconColor:fieldStatusColor,
                     ),
                   ),
                 ),
@@ -239,8 +269,9 @@ class _CustomInputFieldState extends State<CustomInputField>{
                         hoverColor: Colors.transparent,
                         hintText: widget.name,
                         hintStyle: TextStyle(
+                          fontWeight: FontWeight.w300,
                           color: widget.validate?
-                          isInput?Colors.cyan[200]:ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                          isInput?activeTextColor:ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                           :ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                         )
                       ),
@@ -366,7 +397,10 @@ class _CustomCategoryFieldState extends State<CustomCategoryField>{
             widget.categoryData = suggestionList[index];
             this.setState(() {});
           },
-          leading: Icon(Icons.label_important),
+          leading: Icon(
+            Icons.label_important,
+            color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.cyan[700]:Colors.blue,
+          ),
           title: RichText(
             text: TextSpan(
               text: suggestionList[index].name.substring(0, query.length),
@@ -392,16 +426,18 @@ class _CustomCategoryFieldState extends State<CustomCategoryField>{
   @override
   Widget build(BuildContext context) {
     Color fieldStatusColor = Colors.red;
+    Color activeColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.amber:Colors.blue;
+    Color activeTextColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.white:Colors.black;
+
     return Container(
       decoration: BoxDecoration(
         color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
         borderRadius:BorderRadius.all(Radius.circular(10.0)),
-        border: Border.all(width: 2, color: widget.validate?isInput?Colors.cyan[600]:Colors.black26:fieldStatusColor)
+        border: Border.all(width: 1, color: widget.validate?isInput?activeColor:Colors.black26:fieldStatusColor)
       ),
       width: widget.width*0.8,
-      // height: widget.height*0.4,
       child: Material(
-          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).inputFieldColor,
+          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
           shadowColor: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           child: InkWell(
@@ -419,7 +455,7 @@ class _CustomCategoryFieldState extends State<CustomCategoryField>{
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(
                           widget.icon,
-                          color: widget.validate?isInput?Colors.cyan[700]:ThemeProvider.optionsOf<CustomThemeOptions>(context).defaultIconColor:fieldStatusColor,
+                          color: widget.validate?isInput?activeColor:ThemeProvider.optionsOf<CustomThemeOptions>(context).defaultIconColor:fieldStatusColor,
                         ),
                       ),
                     ),
@@ -433,10 +469,11 @@ class _CustomCategoryFieldState extends State<CustomCategoryField>{
                             focusColor: Colors.transparent,
                             hoverColor: Colors.transparent,
                             hintText: widget.name,
-                            hintStyle: TextStyle(color: isInput?Colors.cyan[200]:ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor)
+                            hintStyle: TextStyle(color: isInput?activeTextColor:ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor)
                           ),
                           controller: _controller,
                           style: TextStyle(
+                            fontWeight: FontWeight.w300,
                             decoration: TextDecoration.none,
                             fontSize: 20.0,
                             height: 1.0,
