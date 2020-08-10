@@ -12,6 +12,8 @@ class WebPage extends StatefulWidget{
 }
 
 class _WebPageState extends State<WebPage>{
+  WebViewController _controller;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,25 +24,25 @@ class _WebPageState extends State<WebPage>{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                "WebPage:",
+                "WebPage",
                 style: TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 25.0,
                   color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                 ),
               ),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    widget.url,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 20.0,
-                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                    ),
-                  )
-                )
-              )
+              // Expanded(
+              //   child: Center(
+              //     child: Text(
+              //       widget.url,
+              //       style: TextStyle(
+              //         fontWeight: FontWeight.w300,
+              //         fontSize: 20.0,
+              //         color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+              //       ),
+              //     )
+              //   )
+              // )
             ],
           ),
           leading: FlatButton(
@@ -50,11 +52,37 @@ class _WebPageState extends State<WebPage>{
             ),
             onPressed: () {Navigator.of(context).pop(true);},
           ),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: InkWell(
+                onTap: ()=>_controller?.loadUrl("https://"+widget.url),
+                child:Icon(
+                  Icons.home,
+                  color: Colors.blue,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: InkWell(
+                onTap: ()=>_controller?.reload(),
+                child:Icon(
+                  Icons.refresh,
+                  color: Colors.green,
+                ),
+              ),
+            ),
+          ],
         ),
         body: Material(
           child: WebView(
             initialUrl: "https://"+widget.url,
             javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (controller){
+              _controller = controller;
+            },
+
           ),
         ),
       ),

@@ -10,9 +10,10 @@ import 'package:theme_provider/theme_provider.dart';
 
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.db, this.openWebPage}) : super(key: key);
+  HomePage({Key key, this.db, this.openWebPage, this.openCategoryPage}) : super(key: key);
   final DbProvider db;
   final Function(String)openWebPage;
+  final Function(String) openCategoryPage;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -175,19 +176,18 @@ class _HomePageState extends State<HomePage>{
                   textBaseline: TextBaseline.alphabetic,
                   children: <Widget>[
                     Container(
+                      width: 40,
+                      height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         color: Theme.of(context).primaryColor.withOpacity(0.3),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Center(
-                          child: Icon(
-                            SimpleLineIcons.fire,
-                            size: 25,
-                            // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
-                            color: Colors.orange[400],
-                          ),
+                      child: Center(
+                        child: Icon(
+                          SimpleLineIcons.fire,
+                          size: 25,
+                          // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                          color: Colors.orange[400],
                         ),
                       ),
                     ),
@@ -265,19 +265,18 @@ class _HomePageState extends State<HomePage>{
                   textBaseline: TextBaseline.alphabetic,
                   children: <Widget>[
                     Container(
+                      width: 40,
+                      height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         color: Theme.of(context).primaryColor.withOpacity(0.3),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Center(
-                          child: Icon(
-                            SimpleLineIcons.folder,
-                            size: 25,
-                            // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
-                            color: Colors.purple,
-                          ),
+                      child: Center(
+                        child: Icon(
+                          SimpleLineIcons.folder,
+                          size: 25,
+                          // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                          color: Colors.purple,
                         ),
                       ),
                     ),
@@ -332,19 +331,22 @@ class _HomePageState extends State<HomePage>{
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
-                      child: Card(
-                        color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Center(
-                            child: Text(
-                              categories[index].name,
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w300,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                              ),
-                            )
+                      child: InkWell(
+                        onTap: () => widget.openCategoryPage(categories[index].name),
+                        child: Card(
+                          color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Center(
+                              child: Text(
+                                categories[index].name,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w300,
+                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                ),
+                              )
+                            ),
                           ),
                         ),
                       ),

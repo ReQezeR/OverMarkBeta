@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:overmark/databases/db_provider.dart';
+import 'package:overmark/pages/category_page.dart';
 import 'package:overmark/pages/home_page.dart';
 import 'package:overmark/pages/list_page.dart';
 import 'package:overmark/pages/settings_page.dart';
@@ -67,6 +68,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
 
   void openWebPage(String url) async{
     var web = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeConsumer(child: WebPage(url: url))));
+  }
+
+  void openCategoryPage(String categoryName) async{
+    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ThemeConsumer(child: CategoryPage(db: dbProvider, categoryName: categoryName, openWebPage: openWebPage,getGradient: getGradient, isGradient: isGradient))));
   }
 
   void pageChanged(int index) {
@@ -166,7 +171,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
       pageChanged: pageChanged,
       pages: <Widget>[
         ThemeConsumer(child: ListPage(db: dbProvider, openWebPage: openWebPage,)),
-        ThemeConsumer(child:HomePage(db: dbProvider, openWebPage: openWebPage,)),
+        ThemeConsumer(child:HomePage(db: dbProvider, openWebPage: openWebPage, openCategoryPage: openCategoryPage,)),
         ThemeConsumer(child:SettingsPage(db: dbProvider, toogleGradientState: toogleGradientState, getGradientState: getGradientState,)),
       ],
     );
