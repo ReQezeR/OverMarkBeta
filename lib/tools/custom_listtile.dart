@@ -8,9 +8,10 @@ import 'package:overmark/themes/theme_options.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class CustomListTile extends StatefulWidget {
-  CustomListTile({Key key, this.bookmark, this.openWebPage, this.onChange}) : super(key: key);
+  CustomListTile({Key key, this.bookmark, this.openWebPage, this.openDetailPage, this.onChange}) : super(key: key);
   final Bookmark bookmark;
   final Function(String)openWebPage;
+  final Function (Bookmark)openDetailPage;
   final Function onChange;
 
   @override
@@ -60,8 +61,10 @@ class _CustomListTileState extends State<CustomListTile>{
           padding: const EdgeInsets.fromLTRB(1.0,1.0,1.0,1.0),
           child: Card(
             color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+            // color: Colors.transparent,
+            // elevation: 0.0,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(15.0,10.0,15.0,10.0),
+              padding: const EdgeInsets.fromLTRB(0.0,10.0,0.0,10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -69,8 +72,10 @@ class _CustomListTileState extends State<CustomListTile>{
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5,10,5,10),
+                        width: 40,
+                        height: 40,
+                        // color: Colors.amber,
+                        child: Center(
                           child: Text(
                             widget.bookmark.id.toString(),
                             style: TextStyle(
@@ -82,68 +87,54 @@ class _CustomListTileState extends State<CustomListTile>{
                         ),
                       ),
                       Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10.0,0.0,10.0,0.0),
-                            child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(5.0,0.0,5.0,0.0),
+                          child: Container(
+                            // color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-
                                 Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
+                                  child: Container(
+                                    height: 40,
+                                    constraints: BoxConstraints(minWidth: 50,maxWidth: MediaQuery.of(context).size.width*0.25),
                                     child: Container(
-                                      color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.grey[800],
+                                      color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                                          textBaseline: TextBaseline.alphabetic,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.fromLTRB(0,5,5,5),
-                                              child: Icon(
-                                                MaterialCommunityIcons.format_title,
-                                                size: 15,
-                                                color: Theme.of(context).brightness == Brightness.light?Colors.black:ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-                                              ),
+                                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            widget.bookmark.name.toString(),
+                                            style: TextStyle(
+                                              color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 15,
                                             ),
-                                            Expanded(
-                                              child: Center(
-                                                child: Text(
-                                                  widget.bookmark.name.toString(),
-                                                  style: TextStyle(
-                                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 15,
-                                                  ),
-                                                  maxLines: 1,
-                                                )
-                                              ),
-                                            ),
-                                          ],
+                                            maxLines: 1,
+
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
+                                    padding: const EdgeInsets.only(left: 5.0),
                                     child: Container(
-                                      color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.grey[800],
+                                      height: 40,
+                                      color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(5.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                                          textBaseline: TextBaseline.alphabetic,
+                                          // crossAxisAlignment: CrossAxisAlignment.baseline,
+                                          // textBaseline: TextBaseline.alphabetic,
                                           children: <Widget>[
                                             Padding(
-                                              padding: const EdgeInsets.fromLTRB(0,5,5,5),
+                                              padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                                               child: Icon(
                                                 SimpleLineIcons.link,
                                                 size: 15,
@@ -175,14 +166,23 @@ class _CustomListTileState extends State<CustomListTile>{
                         ),
                       ),
 
-                      Container(
-                        child: InkWell(
-                          child: Icon(
-                            Icons.content_copy,
-                            color: Colors.grey,
+                      InkWell(
+                        onLongPress: (){Clipboard.setData(ClipboardData(text: widget.bookmark.url.toString()));},
+                        onTap: (){Clipboard.setData(ClipboardData(text: widget.bookmark.url.toString()));},
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          margin: EdgeInsets.all(0),
+                          padding: EdgeInsets.all(0),
+                          // color: Colors.amber,
+                          child: InkWell(
+                            child: Icon(
+                              Icons.content_copy,
+                              color: Colors.grey,
+                            ),
+                            // onLongPress: (){Clipboard.setData(ClipboardData(text: widget.bookmark.url.toString()));},
+                            // onTap: (){Clipboard.setData(ClipboardData(text: widget.bookmark.url.toString()));},
                           ),
-                          onLongPress: (){Clipboard.setData(ClipboardData(text: widget.bookmark.url.toString()));},
-                          onTap: (){Clipboard.setData(ClipboardData(text: widget.bookmark.url.toString()));},
                         ),
                       )
                     ],
@@ -206,7 +206,7 @@ class _CustomListTileState extends State<CustomListTile>{
                                   padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
                                   child:Center(
                                     child: Text(
-                                      "Open Website",
+                                      "Otwórz",
                                       style: TextStyle(
                                         color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
                                         fontWeight: FontWeight.w500,
@@ -220,6 +220,7 @@ class _CustomListTileState extends State<CustomListTile>{
                           ),
                           Expanded(
                             child: InkWell(
+                              onTap: () => widget.openDetailPage(widget.bookmark),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
@@ -230,7 +231,7 @@ class _CustomListTileState extends State<CustomListTile>{
                                   padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
                                   child:Center(
                                     child: Text(
-                                      "Show Details",
+                                      "Informacje",
                                       style: TextStyle(
                                         color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
                                         fontWeight: FontWeight.w500,
