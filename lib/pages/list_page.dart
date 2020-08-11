@@ -10,9 +10,10 @@ import 'package:theme_provider/theme_provider.dart';
 
 
 class ListPage extends StatefulWidget {
-  ListPage({Key key, this.db, this.openWebPage}) : super(key: key);
+  ListPage({Key key, this.db, this.openWebPage, this.openDetailPage}) : super(key: key);
   final DbProvider db;
   final Function(String)openWebPage;
+  final Function (Bookmark)openDetailPage;
 
   @override
   _ListPageState createState() => _ListPageState();
@@ -353,7 +354,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                       scrollDirection: Axis.vertical,
                       itemCount: bookmarks.length,
                       itemBuilder: (BuildContext context, int index) => 
-                      CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage, onChange: toogleOpenTile),
+                      CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile),
                     ),
                   ),
                   isForm?Positioned(

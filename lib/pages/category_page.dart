@@ -13,9 +13,10 @@ class CategoryPage extends StatefulWidget{
   final String categoryName;
   final DbProvider db;
   final Function(String)openWebPage;
+  final Function (Bookmark)openDetailPage;
   final bool isGradient;
   final Function getGradient;
-  CategoryPage({this.db, this.categoryName, this.openWebPage, this.getGradient, this.isGradient});
+  CategoryPage({this.db, this.categoryName, this.openWebPage, this.openDetailPage, this.getGradient, this.isGradient});
 
   @override
   _CategoryPageState createState() => _CategoryPageState();
@@ -113,7 +114,7 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
                   scrollDirection: Axis.vertical,
                   itemCount: bookmarks.length,
                   itemBuilder: (BuildContext context, int index) => 
-                  ThemeConsumer(child: CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage, onChange: toogleOpenTile)),
+                  ThemeConsumer(child: CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage,openDetailPage:widget.openDetailPage, onChange: toogleOpenTile)),
                 ),
               ),
             ],

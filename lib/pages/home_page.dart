@@ -10,10 +10,11 @@ import 'package:theme_provider/theme_provider.dart';
 
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.db, this.openWebPage, this.openCategoryPage}) : super(key: key);
+  HomePage({Key key, this.db, this.openWebPage, this.openCategoryPage, this.openDetailPage}) : super(key: key);
   final DbProvider db;
   final Function(String)openWebPage;
   final Function(String) openCategoryPage;
+  final Function (Bookmark)openDetailPage;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -74,15 +75,16 @@ class _HomePageState extends State<HomePage>{
     bool isForm = false;
     return Container(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-              color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor:Theme.of(context).primaryColor,
-              borderRadius:BorderRadius.only(
-                bottomLeft: isInput?Radius.circular(0.0): Radius.circular(20.0),
-                bottomRight: isInput?Radius.circular(0.0): Radius.circular(20.0),
-              ),
+          decoration: BoxDecoration(
+            color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor:Theme.of(context).primaryColor,
+            borderRadius:BorderRadius.only(
+              bottomLeft: isInput?Radius.circular(0.0): Radius.circular(20.0),
+              bottomRight: isInput?Radius.circular(0.0): Radius.circular(20.0),
             ),
+          ),
           child: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -145,28 +147,12 @@ class _HomePageState extends State<HomePage>{
               ],
             ),
           ),
-      ),
-          // Column(
-          //   children: <Widget>[
-          //     Container(
-          //       color: Theme.of(context).primaryColor.withOpacity(0.5),
-          //       height: MediaQuery.of(context).size.height*0.08,
-          //       child: SafeArea(
-          //         child: Center(child: Text("Over Mark", style: TextStyle(fontSize: 35.0, color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor),)),
-          //       ),
-          //     ),
-          //     Container(
-          //       color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-          //       height: 2.0,
-          //       child: Container(),
-          //     ),
-          //   ],
-          // ),
-
-          isBookmarkForm==false?Container(
-            height: MediaQuery.of(context).size.height*0.054,
-            padding: const EdgeInsets.fromLTRB(20,5,10,0),
-            color: Colors.transparent,
+        ),
+        if (isBookmarkForm==false) Container(
+          // height: MediaQuery.of(context).size.height*0.054,
+          padding: const EdgeInsets.fromLTRB(10,0,10,0),
+          child: Card(
+            color: ThemeProvider.themeOf(context).id=='dark_theme'?Theme.of(context).primaryColor.withOpacity(0.2):Theme.of(context).primaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -178,10 +164,10 @@ class _HomePageState extends State<HomePage>{
                     Container(
                       width: 40,
                       height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        color: Theme.of(context).primaryColor.withOpacity(0.3),
-                      ),
+                      // decoration: BoxDecoration(
+                      //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      //   color: Theme.of(context).primaryColor.withOpacity(0.3),
+                      // ),
                       child: Center(
                         child: Icon(
                           SimpleLineIcons.fire,
@@ -193,11 +179,14 @@ class _HomePageState extends State<HomePage>{
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Text(
-                        "Ostatnie zakładki:",
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      child: Center(
+                        child: Text(
+                          "Ostatnie zakładki:",
+                          style: TextStyle(
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w300,
+                            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                          ),
                         ),
                       )
                     ),
@@ -222,10 +211,11 @@ class _HomePageState extends State<HomePage>{
                 // ),
               ],
             ),
-          ):BookmarkForm(width: 500, height:550, db: widget.db, closeForm: this.closeForm,),
-          
+          ),
+        )else BookmarkForm(width: 500, height:550, db: widget.db, closeForm: this.closeForm,),
+
           isBookmarkForm==false?recent_bookmarks.length>0?Container(
-            padding: const EdgeInsets.fromLTRB(1,0,1,5),
+            padding: const EdgeInsets.fromLTRB(10,0,10,5),
             child: ListView.builder(
               padding: const EdgeInsets.all(0.0),
               physics: ClampingScrollPhysics(),
@@ -233,7 +223,7 @@ class _HomePageState extends State<HomePage>{
               scrollDirection: Axis.vertical,
               itemCount: recent_bookmarks.length>=3?3:recent_bookmarks.length,
               itemBuilder: (BuildContext context, int index) => 
-              CustomListTile(bookmark: recent_bookmarks[index],openWebPage: widget.openWebPage, onChange: toogleOpenTile,),
+              CustomListTile(bookmark: recent_bookmarks[index],openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile,),
               // Container(
               //   child: Padding(
               //     padding: const EdgeInsets.all(2.0),
@@ -253,100 +243,97 @@ class _HomePageState extends State<HomePage>{
             ),
           ):Container():Container(),
           Container(
-            height: MediaQuery.of(context).size.height*0.05,
+            // height: MediaQuery.of(context).size.height*0.054,
             color: Colors.transparent,
-            padding: const EdgeInsets.fromLTRB(20,0,10,5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: <Widget>[
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        color: Theme.of(context).primaryColor.withOpacity(0.3),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          SimpleLineIcons.folder,
-                          size: 25,
-                          // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
-                          color: Colors.purple,
+            padding: const EdgeInsets.fromLTRB(10,0,10,0),
+            child: Card(
+              color: ThemeProvider.themeOf(context).id=='dark_theme'?Theme.of(context).primaryColor.withOpacity(0.2):Theme.of(context).primaryColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: <Widget>[
+                      Container(
+                        width: 40,
+                        height: 40,
+                        child: Center(
+                          child: Icon(
+                            SimpleLineIcons.folder,
+                            size: 25,
+                            color: Colors.deepOrange[800],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Text(
-                        "Kategorie:",
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Center(
+                          child: Text(
+                            "Kategorie:",
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.w300,
+                              color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                // Container(
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: FlatButton(
-                //       color: Colors.cyan,
-                //       child: Icon(Icons.add),
-                //       onPressed: () {
-                //         print("ADD +");
-                //         String _date = new DateTime.now().toIso8601String();
-                //         widget.db.insert(Category(name: "Motoryzacja "+_date, date: _date).toMap(), 'Categories');
-                //         this.getData();
-                //       },
-                //     ),
-                //   ),
-                // ),
-              ],
+                    ],
+                  ),
+                  // Container(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: FlatButton(
+                  //       color: Colors.cyan,
+                  //       child: Icon(Icons.add),
+                  //       onPressed: () {
+                  //         print("ADD +");
+                  //         String _date = new DateTime.now().toIso8601String();
+                  //         widget.db.insert(Category(name: "Motoryzacja "+_date, date: _date).toMap(), 'Categories');
+                  //         this.getData();
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
           ),
           categories.length>0?Expanded(
             child: Container(
-              // color: Theme.of(context).primaryColor.withOpacity(0.3),
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                height:  MediaQuery.of(context).size.width*0.2,
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(0.0),
-                  physics: ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: categories.length,
-                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount( 
-                    crossAxisCount: (MediaQuery.of(context).orientation == Orientation.portrait) ? 2 : 1, 
-                    childAspectRatio: categories.length==1?calcGridAspectRatio():1.5,
-                  ),
+              padding: const EdgeInsets.fromLTRB(10,0,10,0),
+              child: GridView.builder(
+                padding: const EdgeInsets.all(0.0),
+                physics: ClampingScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: categories.length,
+                gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount( 
+                  crossAxisCount: (MediaQuery.of(context).orientation == Orientation.portrait) ? 2 : 3, 
+                  childAspectRatio: categories.length==1?calcGridAspectRatio():1.5,
+                ),
 
-                  itemBuilder: (BuildContext context, int index) => 
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: InkWell(
-                        onTap: () => widget.openCategoryPage(categories[index].name),
-                        child: Card(
-                          color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Center(
-                              child: Text(
-                                categories[index].name,
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w300,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                                ),
-                              )
-                            ),
+                itemBuilder: (BuildContext context, int index) => 
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: InkWell(
+                      onTap: () => widget.openCategoryPage(categories[index].name),
+                      child: Card(
+                        color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Text(
+                              categories[index].name,
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w300,
+                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                              ),
+                            )
                           ),
                         ),
                       ),
@@ -355,11 +342,9 @@ class _HomePageState extends State<HomePage>{
                 ),
               ),
             ),
-          ):Container(),
-          // Expanded(child: Container(),)
+          ):Container()
         ],
       ),
     );
   }
-
 }

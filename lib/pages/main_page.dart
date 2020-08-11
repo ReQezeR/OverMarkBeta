@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:overmark/databases/bookmark.dart';
 import 'package:overmark/databases/db_provider.dart';
 import 'package:overmark/pages/category_page.dart';
+import 'package:overmark/pages/detail_page.dart';
 import 'package:overmark/pages/home_page.dart';
 import 'package:overmark/pages/list_page.dart';
 import 'package:overmark/pages/settings_page.dart';
@@ -71,8 +73,13 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
   }
 
   void openCategoryPage(String categoryName) async{
-    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ThemeConsumer(child: CategoryPage(db: dbProvider, categoryName: categoryName, openWebPage: openWebPage,getGradient: getGradient, isGradient: isGradient))));
+    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ThemeConsumer(child: CategoryPage(db: dbProvider, categoryName: categoryName, openWebPage: openWebPage, openDetailPage: openDetailPage, getGradient: getGradient, isGradient: isGradient))));
   }
+  
+  void openDetailPage(Bookmark bookmark) async{
+    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeConsumer(child: DetailPage(db:dbProvider, bookmark: bookmark, isGradient: isGradient, getGradient: getGradient,))));
+  }
+
 
   void pageChanged(int index) {
     setState(() {
@@ -170,8 +177,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
       notifier: _notifier,
       pageChanged: pageChanged,
       pages: <Widget>[
-        ThemeConsumer(child: ListPage(db: dbProvider, openWebPage: openWebPage,)),
-        ThemeConsumer(child:HomePage(db: dbProvider, openWebPage: openWebPage, openCategoryPage: openCategoryPage,)),
+        ThemeConsumer(child: ListPage(db: dbProvider, openWebPage: openWebPage, openDetailPage: openDetailPage)),
+        ThemeConsumer(child:HomePage(db: dbProvider, openWebPage: openWebPage, openCategoryPage: openCategoryPage, openDetailPage: openDetailPage,)),
         ThemeConsumer(child:SettingsPage(db: dbProvider, toogleGradientState: toogleGradientState, getGradientState: getGradientState,)),
       ],
     );
