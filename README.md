@@ -10,9 +10,11 @@ Zakładki dodajemy za pomocą formularza otwieranego z ekranu listy zakładek.
 Aplikacja posiada 3 ekrany:  
 *  Ekran główny - zawierający ostatnio edytowane zakładki oraz listę kategorii,
 <img src="GameApperance/homeAppearance.png" height="800">
+
 *  Ekran listy zakładek - zawierający listę zakładek,  
 <img src="GameApperance/listAppearance.png" height="800">
-*  Ekran ustawień - zawierający podstawowe ustawienia aplikacji,  
+
+*  Ekran ustawień - zawierający podstawowe ustawienia aplikacji,
 <img src="GameApperance/settingsAppearance.png" height="800">
 
 ## Tools
