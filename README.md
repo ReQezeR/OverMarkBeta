@@ -8,12 +8,12 @@ Celem aplikacji jest przechowywanie zakładek zawierających linki użytkownika 
 Zakładki dodajemy za pomocą formularza otwieranego z ekranu listy zakładek.  
   
 Aplikacja posiada 3 ekrany:  
-*  Ekran główny - zawierający ostatnio edytowane zakładki oraz listę kategorii,  
-![homeAppearance](GameApperance/homeAppearance.png)
+*  Ekran główny - zawierający ostatnio edytowane zakładki oraz listę kategorii,
+<img src="GameApperance/homeAppearance.png" height="800">
 *  Ekran listy zakładek - zawierający listę zakładek,  
-![listAppearance](GameApperance/listAppearance.png)
+<img src="GameApperance/listAppearance.png" height="800">
 *  Ekran ustawień - zawierający podstawowe ustawienia aplikacji,  
-![settingsAppearance](GameApperance/settingsAppearance.png)
+<img src="GameApperance/settingsAppearance.png" height="800">
 
 ## Tools
 * Dart 2.9.0
