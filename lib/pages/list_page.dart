@@ -348,13 +348,16 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                 children: <Widget>[
                   Container(
                     child: ListView.builder(
-                      padding: const EdgeInsets.all(0.0),
+                      padding: const EdgeInsets.all(0),
                       physics: ClampingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemCount: bookmarks.length,
                       itemBuilder: (BuildContext context, int index) => 
-                      CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(1, 5, 1, 2),
+                        child: CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile),
+                      ),
                     ),
                   ),
                   isForm?Positioned(

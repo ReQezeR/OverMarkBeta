@@ -119,28 +119,28 @@ class _HomePageState extends State<HomePage>{
                           ),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: isForm==false?Container(
-                          padding: EdgeInsets.all(0),
-                          child: MaterialButton(
-                            padding: EdgeInsets.all(0),
-                            shape: CircleBorder(),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius:BorderRadius.all(Radius.circular(20.0))
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Icon(Icons.card_travel, color: Colors.grey[800],),
-                              )
-                            ),
-                            onPressed: () {
-                              print("side menu");
-                            },
-                          ),
-                        ):Container(),
-                      ),
+                      // Align(
+                      //   alignment: Alignment.centerRight,
+                      //   child: isForm==false?Container(
+                      //     padding: EdgeInsets.all(0),
+                      //     child: MaterialButton(
+                      //       padding: EdgeInsets.all(0),
+                      //       shape: CircleBorder(),
+                      //       child: Container(
+                      //         decoration: BoxDecoration(
+                      //           borderRadius:BorderRadius.all(Radius.circular(20.0))
+                      //         ),
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.all(5.0),
+                      //           child: Icon(Icons.card_travel, color: Colors.grey[800],),
+                      //         )
+                      //       ),
+                      //       onPressed: () {
+                      //         print("side menu");
+                      //       },
+                      //     ),
+                      //   ):Container(),
+                      // ),
                     ],
                   ),
                 ),
@@ -161,19 +161,22 @@ class _HomePageState extends State<HomePage>{
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: <Widget>[
-                    Container(
-                      width: 40,
-                      height: 40,
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      //   color: Theme.of(context).primaryColor.withOpacity(0.3),
-                      // ),
-                      child: Center(
-                        child: Icon(
-                          SimpleLineIcons.fire,
-                          size: 25,
-                          // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
-                          color: Colors.orange[400],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        // decoration: BoxDecoration(
+                        //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        //   color: Theme.of(context).primaryColor.withOpacity(0.3),
+                        // ),
+                        child: Center(
+                          child: Icon(
+                            SimpleLineIcons.fire,
+                            size: 25,
+                            // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                            color: Colors.orange[400],
+                          ),
                         ),
                       ),
                     ),
@@ -217,13 +220,16 @@ class _HomePageState extends State<HomePage>{
           isBookmarkForm==false?recent_bookmarks.length>0?Container(
             padding: const EdgeInsets.fromLTRB(10,0,10,5),
             child: ListView.builder(
-              padding: const EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(0),
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemCount: recent_bookmarks.length>=3?3:recent_bookmarks.length,
               itemBuilder: (BuildContext context, int index) => 
-              CustomListTile(bookmark: recent_bookmarks[index],openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile,),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(1, 5, 1, 2),
+                child: CustomListTile(bookmark: recent_bookmarks[index],openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile,),
+              ),
               // Container(
               //   child: Padding(
               //     padding: const EdgeInsets.all(2.0),
@@ -256,14 +262,17 @@ class _HomePageState extends State<HomePage>{
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
                     children: <Widget>[
-                      Container(
-                        width: 40,
-                        height: 40,
-                        child: Center(
-                          child: Icon(
-                            SimpleLineIcons.folder,
-                            size: 25,
-                            color: Colors.deepOrange[800],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          child: Center(
+                            child: Icon(
+                              SimpleLineIcons.folder,
+                              size: 25,
+                              color: Colors.deepOrange[800],
+                            ),
                           ),
                         ),
                       ),
