@@ -29,8 +29,8 @@ Aplikacja posiada 3 ekrany:
 * install overmark.apk
 
 ## Future improvements
-* Dodanie usuwania pojedyńczych linków
 * Dodanie edycji linków
+* Dodanie usuwania kategorii
 
 ## Author
 **Michał Popiel** - [ReQezeR](https://github.com/ReQezeR)
