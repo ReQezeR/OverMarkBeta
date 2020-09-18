@@ -13,7 +13,8 @@ class DetailPage extends StatefulWidget{
   final DbProvider db;
   final bool isGradient;
   final Function getGradient;
-  DetailPage({this.bookmark, this.db, this.getGradient, this.isGradient});
+  final Function refresh;
+  DetailPage({this.bookmark, this.db, this.getGradient, this.isGradient, this.refresh});
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -63,8 +64,23 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
               Icons.arrow_back,
               color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
             ),
-            onPressed: () {Navigator.of(context).pop(true);},
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
           ),
+          actions: [
+            FlatButton(
+              child: Icon(
+                Icons.delete_outline,
+                color: Colors.red,
+              ),
+              onPressed: () {
+                widget.db.delete(widget.bookmark.id, "Bookmarks");
+                widget.refresh();
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
         ),
         body: Container(
           decoration: widget.isGradient?BoxDecoration(
@@ -88,7 +104,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Icon(
-                              SimpleLineIcons.info,
+                              Icons.title,
                               color: Colors.amber,
                             ),
                           ),

@@ -13,7 +13,7 @@ class ListPage extends StatefulWidget {
   ListPage({Key key, this.db, this.openWebPage, this.openDetailPage}) : super(key: key);
   final DbProvider db;
   final Function(String)openWebPage;
-  final Function (Bookmark)openDetailPage;
+  final Function (Bookmark, Function)openDetailPage;
 
   @override
   _ListPageState createState() => _ListPageState();
@@ -356,7 +356,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                       itemBuilder: (BuildContext context, int index) => 
                       Padding(
                         padding: const EdgeInsets.fromLTRB(1, 5, 1, 2),
-                        child: CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile),
+                        child: CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile, refresh: getData,),
                       ),
                     ),
                   ),

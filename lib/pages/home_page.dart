@@ -13,8 +13,8 @@ class HomePage extends StatefulWidget {
   HomePage({Key key, this.db, this.openWebPage, this.openCategoryPage, this.openDetailPage}) : super(key: key);
   final DbProvider db;
   final Function(String)openWebPage;
-  final Function(String) openCategoryPage;
-  final Function (Bookmark)openDetailPage;
+  final Function(String, Function) openCategoryPage;
+  final Function (Bookmark, Function)openDetailPage;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -329,7 +329,7 @@ class _HomePageState extends State<HomePage>{
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: InkWell(
-                      onTap: () => widget.openCategoryPage(categories[index].name),
+                      onTap: () => widget.openCategoryPage(categories[index].name, getData),
                       child: Card(
                         color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
                         child: Padding(

@@ -72,12 +72,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
     var web = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeConsumer(child: WebPage(url: url))));
   }
 
-  void openCategoryPage(String categoryName) async{
-    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ThemeConsumer(child: CategoryPage(db: dbProvider, categoryName: categoryName, openWebPage: openWebPage, openDetailPage: openDetailPage, getGradient: getGradient, isGradient: isGradient))));
+  void openCategoryPage(String categoryName, Function refresh) async{
+    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ThemeConsumer(child: CategoryPage(db: dbProvider, categoryName: categoryName, openWebPage: openWebPage, openDetailPage: openDetailPage, getGradient: getGradient, isGradient: isGradient, refresh: refresh,))));
   }
   
-  void openDetailPage(Bookmark bookmark) async{
-    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeConsumer(child: DetailPage(db:dbProvider, bookmark: bookmark, isGradient: isGradient, getGradient: getGradient,))));
+  void openDetailPage(Bookmark bookmark, Function refresh) async{
+    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeConsumer(child: DetailPage(db:dbProvider, bookmark: bookmark, isGradient: isGradient, getGradient: getGradient, refresh: refresh,))));
   }
 
 

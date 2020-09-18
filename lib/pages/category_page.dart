@@ -13,10 +13,11 @@ class CategoryPage extends StatefulWidget{
   final String categoryName;
   final DbProvider db;
   final Function(String)openWebPage;
-  final Function (Bookmark)openDetailPage;
+  final Function (Bookmark, Function)openDetailPage;
   final bool isGradient;
   final Function getGradient;
-  CategoryPage({this.db, this.categoryName, this.openWebPage, this.openDetailPage, this.getGradient, this.isGradient});
+  final Function refresh;
+  CategoryPage({this.db, this.categoryName, this.openWebPage, this.openDetailPage, this.getGradient, this.isGradient, this.refresh});
 
   @override
   _CategoryPageState createState() => _CategoryPageState();
@@ -42,6 +43,10 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
   void dispose() {
     _refreshController.dispose();
     super.dispose();
+  }
+  void refreshAll(){
+    getData();
+    widget.refresh();
   }
 
   void getData() async {
@@ -114,7 +119,7 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
                   scrollDirection: Axis.vertical,
                   itemCount: bookmarks.length,
                   itemBuilder: (BuildContext context, int index) => 
-                  ThemeConsumer(child: CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage,openDetailPage:widget.openDetailPage, onChange: toogleOpenTile)),
+                  ThemeConsumer(child: CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage,openDetailPage:widget.openDetailPage, onChange: toogleOpenTile, refresh: refreshAll,)),
                 ),
               ),
             ],
