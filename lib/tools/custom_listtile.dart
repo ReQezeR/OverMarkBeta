@@ -8,11 +8,12 @@ import 'package:overmark/themes/theme_options.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class CustomListTile extends StatefulWidget {
-  CustomListTile({Key key, this.bookmark, this.openWebPage, this.openDetailPage, this.onChange}) : super(key: key);
+  CustomListTile({Key key, this.bookmark, this.openWebPage, this.openDetailPage, this.onChange, this.refresh}) : super(key: key);
   final Bookmark bookmark;
   final Function(String)openWebPage;
-  final Function (Bookmark)openDetailPage;
+  final Function (Bookmark, Function)openDetailPage;
   final Function onChange;
+  final Function refresh;
 
   @override
   _CustomListTileState createState() => _CustomListTileState();
@@ -205,14 +206,25 @@ class _CustomListTileState extends State<CustomListTile>{
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
                                   child:Center(
-                                    child: Text(
-                                      "Otwórz",
-                                      style: TextStyle(
-                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15,
-                                      ),
-                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 5.0),
+                                          child: Icon(
+                                            Icons.web
+                                          ),
+                                        ),
+                                        Text(
+                                          "Otwórz",
+                                          style: TextStyle(
+                                            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   )
                                 ),
                               ),
@@ -220,7 +232,7 @@ class _CustomListTileState extends State<CustomListTile>{
                           ),
                           Expanded(
                             child: InkWell(
-                              onTap: () => widget.openDetailPage(widget.bookmark),
+                              onTap: () => widget.openDetailPage(widget.bookmark, widget.refresh),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
@@ -230,14 +242,25 @@ class _CustomListTileState extends State<CustomListTile>{
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
                                   child:Center(
-                                    child: Text(
-                                      "Informacje",
-                                      style: TextStyle(
-                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15,
-                                      ),
-                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 5.0),
+                                          child: Icon(
+                                            Icons.info_outline
+                                          ),
+                                        ),
+                                        Text(
+                                          "Informacje",
+                                          style: TextStyle(
+                                            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   )
                                 ),
                               ),
