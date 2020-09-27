@@ -109,10 +109,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        Color(0xDFFFFFFF), 
-        Color(0x2F486C7C),
-        Color(0x2F486C7C),
-        Color(0xDFFFFFFF),
+        Color(0xFFFCF6EF), 
+        Color(0xFFFCF6EF),
+        Color(0xFFFCF6EF),
+        Color(0xFFFCF6EF),
       ],
       stops: [
         0,
