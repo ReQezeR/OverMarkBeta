@@ -95,35 +95,42 @@ class _SettingsPageState extends State<SettingsPage>{
 
           Expanded(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0, right: 10.0),
-                              child: Icon(
-                                SimpleLineIcons.pencil,
-                                // color: Colors.green,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                "Motyw:",
-                                style: TextStyle(
-                                  fontSize: 25.0,
-                                    fontWeight: FontWeight.w300,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      Container(
+                        height: 80,
+                        color: Colors.transparent,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0, right: 10.0),
+                                child: Icon(
+                                  SimpleLineIcons.pencil,
+                                  size: 25.0
+                                  // color: Colors.green,
                                 ),
-                              )),
-                          ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  "Motyw:",
+                                  style: TextStyle(
+                                    fontSize: 30.0,
+                                      fontWeight: FontWeight.w400,
+                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                  ),
+                                )),
+                            ],
+                          ),
                         ),
                       ),
+
                       Container(
                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                         width: MediaQuery.of(context).size.width*0.9,
@@ -173,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage>{
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                         decoration: BoxDecoration(
                             color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -226,36 +233,40 @@ class _SettingsPageState extends State<SettingsPage>{
 
 
                 Container(
-                  padding: EdgeInsets.fromLTRB(0,10,0,10),
+                  padding: EdgeInsets.fromLTRB(0,0,0,0),
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0, right: 10.0),
-                              child: Icon(
-                                SimpleLineIcons.layers,
-                                // color: Colors.indigoAccent,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                "Baza danych:",
-                                style: TextStyle(
-                                  fontSize: 25.0,
-                                    fontWeight: FontWeight.w300,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      Container(
+                        height: 80,
+                        color: Colors.transparent,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0, right: 10.0),
+                                child: Icon(
+                                  SimpleLineIcons.layers,
+                                  size: 25.0,
+                                  // color: Colors.indigoAccent,
                                 ),
-                              )),
-                          ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  "Baza danych:",
+                                  style: TextStyle(
+                                    fontSize: 30.0,
+                                      fontWeight: FontWeight.w400,
+                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                  ),
+                                )),
+                            ],
+                          ),
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                         decoration: BoxDecoration(
                             color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),
