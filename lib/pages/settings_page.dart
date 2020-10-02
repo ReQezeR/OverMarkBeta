@@ -35,6 +35,7 @@ class _SettingsPageState extends State<SettingsPage>{
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 25),
       child: Column(
         children: <Widget>[
           Container(
@@ -44,6 +45,14 @@ class _SettingsPageState extends State<SettingsPage>{
                 bottomLeft: Radius.circular(20.0),
                 bottomRight: Radius.circular(20.0),
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor.withOpacity(0.6):Colors.grey.withOpacity(0.5),
+                  spreadRadius: 4,
+                  blurRadius: 10,
+                  offset: Offset(0, 0), // changes position of shadow
+                ),
+              ],
             ),
             child: SafeArea(
               child: Container(
@@ -69,8 +78,9 @@ class _SettingsPageState extends State<SettingsPage>{
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Icon(
-                            SimpleLineIcons.settings,
-                            size: 45,
+                            // SimpleLineIcons.settings,
+                            Icons.settings,
+                            size: 47,
                             color: Colors.red,
                           ),
                         ),
@@ -85,10 +95,7 @@ class _SettingsPageState extends State<SettingsPage>{
 
           Expanded(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-
-
                 Container(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                   child: Column(
@@ -100,8 +107,8 @@ class _SettingsPageState extends State<SettingsPage>{
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0, right: 10.0),
                               child: Icon(
-                                 SimpleLineIcons.pencil,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                                SimpleLineIcons.pencil,
+                                // color: Colors.green,
                               ),
                             ),
                             Padding(
@@ -110,6 +117,7 @@ class _SettingsPageState extends State<SettingsPage>{
                                 "Motyw:",
                                 style: TextStyle(
                                   fontSize: 25.0,
+                                    fontWeight: FontWeight.w300,
                                   color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                 ),
                               )),
@@ -118,8 +126,11 @@ class _SettingsPageState extends State<SettingsPage>{
                       ),
                       Container(
                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        color: Theme.of(context).brightness == Brightness.light?Colors.white: Colors.black38,
                         width: MediaQuery.of(context).size.width*0.9,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
                         child: InkWell(
                           onTap: (){
                             changeTheme(true,context);
@@ -142,6 +153,7 @@ class _SettingsPageState extends State<SettingsPage>{
                                   "Tryb ciemny",
                                   style: TextStyle(
                                     fontSize: 25.0,
+                                    fontWeight: FontWeight.w300,
                                     color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                   ),
                                 ),
@@ -162,7 +174,10 @@ class _SettingsPageState extends State<SettingsPage>{
                       ),
                       Container(
                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        color: Theme.of(context).brightness == Brightness.light?Colors.white: Colors.black38,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
                         width: MediaQuery.of(context).size.width*0.9,
                         child: InkWell(
                           onTap: (){
@@ -186,6 +201,7 @@ class _SettingsPageState extends State<SettingsPage>{
                                   "Gradient",
                                   style: TextStyle(
                                     fontSize: 25.0,
+                                    fontWeight: FontWeight.w300,
                                     color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                   ),
                                 ),
@@ -221,8 +237,8 @@ class _SettingsPageState extends State<SettingsPage>{
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0, right: 10.0),
                               child: Icon(
-                                 SimpleLineIcons.layers,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                                SimpleLineIcons.layers,
+                                // color: Colors.indigoAccent,
                               ),
                             ),
                             Padding(
@@ -231,6 +247,7 @@ class _SettingsPageState extends State<SettingsPage>{
                                 "Baza danych:",
                                 style: TextStyle(
                                   fontSize: 25.0,
+                                    fontWeight: FontWeight.w300,
                                   color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                 ),
                               )),
@@ -239,7 +256,10 @@ class _SettingsPageState extends State<SettingsPage>{
                       ),
                       Container(
                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        color: Theme.of(context).brightness == Brightness.light?Colors.white: Colors.black38,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
                         width: MediaQuery.of(context).size.width*0.9,
                         child: InkWell(
                           onTap: (){
@@ -252,9 +272,8 @@ class _SettingsPageState extends State<SettingsPage>{
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Icon(
-                                  Icons.line_weight,
+                                  Icons.collections_bookmark,
                                   size: 25,
-                                  // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
                                   color: Colors.red,
                                 ),
                               ),
@@ -264,7 +283,7 @@ class _SettingsPageState extends State<SettingsPage>{
                                   "Usuń zakładki",
                                   style: TextStyle(
                                     fontSize: 25.0,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w300,
                                     color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                   ),
                                 ),
@@ -285,7 +304,10 @@ class _SettingsPageState extends State<SettingsPage>{
 
                       Container(
                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        color: Theme.of(context).brightness == Brightness.light?Colors.white: Colors.black38,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
                         width: MediaQuery.of(context).size.width*0.9,
                         child: InkWell(
                           onTap: (){
@@ -311,7 +333,7 @@ class _SettingsPageState extends State<SettingsPage>{
                                   "Usuń wszystko",
                                   style: TextStyle(
                                     fontSize: 25.0,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w300,
                                     color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                   ),
                                 ),

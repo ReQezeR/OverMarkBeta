@@ -34,7 +34,7 @@ class _NotifyingPageViewState extends State<NotifyingPageView> {
   void initState() {
     _pageController = PageController(
       initialPage: widget.currentPage,
-      viewportFraction: 1,
+      viewportFraction: 1.1,
       keepPage: true,
     )..addListener(_onScroll);
     super.initState();

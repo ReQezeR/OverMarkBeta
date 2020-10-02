@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage>{
     bool isInput = false;
     bool isForm = false;
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 25),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -84,6 +85,14 @@ class _HomePageState extends State<HomePage>{
               bottomLeft: isInput?Radius.circular(0.0): Radius.circular(20.0),
               bottomRight: isInput?Radius.circular(0.0): Radius.circular(20.0),
             ),
+            boxShadow: [
+              BoxShadow(
+                color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor.withOpacity(0.6):Colors.grey.withOpacity(0.5),
+                spreadRadius: 4,
+                blurRadius: 10,
+                offset: Offset(0, 0), // changes position of shadow
+              ),
+            ],
           ),
           child: SafeArea(
             child: Column(
@@ -99,9 +108,9 @@ class _HomePageState extends State<HomePage>{
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: Icon(
-                              Icons.bookmark_border,
-                              size: 45,
-                              color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                              Icons.bookmark,
+                              size: 47,
+                              color: Colors.amber
                             ),
                           ),
                         ),
@@ -109,7 +118,7 @@ class _HomePageState extends State<HomePage>{
                       Container(
                         child: Center(
                           child: Text(
-                            "Over Mark",
+                            "OverMark",
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontWeight: FontWeight.w200,
@@ -119,28 +128,6 @@ class _HomePageState extends State<HomePage>{
                           ),
                         ),
                       ),
-                      // Align(
-                      //   alignment: Alignment.centerRight,
-                      //   child: isForm==false?Container(
-                      //     padding: EdgeInsets.all(0),
-                      //     child: MaterialButton(
-                      //       padding: EdgeInsets.all(0),
-                      //       shape: CircleBorder(),
-                      //       child: Container(
-                      //         decoration: BoxDecoration(
-                      //           borderRadius:BorderRadius.all(Radius.circular(20.0))
-                      //         ),
-                      //         child: Padding(
-                      //           padding: const EdgeInsets.all(5.0),
-                      //           child: Icon(Icons.card_travel, color: Colors.grey[800],),
-                      //         )
-                      //       ),
-                      //       onPressed: () {
-                      //         print("side menu");
-                      //       },
-                      //     ),
-                      //   ):Container(),
-                      // ),
                     ],
                   ),
                 ),
@@ -148,11 +135,12 @@ class _HomePageState extends State<HomePage>{
             ),
           ),
         ),
+
         if (isBookmarkForm==false) Container(
-          // height: MediaQuery.of(context).size.height*0.054,
           padding: const EdgeInsets.fromLTRB(10,0,10,0),
           child: Card(
-            color: ThemeProvider.themeOf(context).id=='dark_theme'?Theme.of(context).primaryColor.withOpacity(0.2):Theme.of(context).primaryColor,
+            color: Colors.transparent,
+            shadowColor: Colors.transparent,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -166,15 +154,10 @@ class _HomePageState extends State<HomePage>{
                       child: Container(
                         width: 40,
                         height: 40,
-                        // decoration: BoxDecoration(
-                        //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        //   color: Theme.of(context).primaryColor.withOpacity(0.3),
-                        // ),
                         child: Center(
                           child: Icon(
                             SimpleLineIcons.fire,
                             size: 25,
-                            // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
                             color: Colors.orange[400],
                           ),
                         ),
@@ -187,7 +170,7 @@ class _HomePageState extends State<HomePage>{
                           "Ostatnie zakładki:",
                           style: TextStyle(
                             fontSize: 25.0,
-                            fontWeight: FontWeight.w300,
+                            // fontWeight: FontWeight.w400,
                             color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                           ),
                         ),
@@ -195,23 +178,6 @@ class _HomePageState extends State<HomePage>{
                     ),
                   ],
                 ),
-                // Container(
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: FlatButton(
-                //       color: Colors.orangeAccent,
-                //       child: Icon(Icons.add),
-                //       onPressed: () {
-                //         print("ADD +");
-                //         this.isBookmarkForm = true;
-                //         this.setState(() {});
-                //         // String _date = new DateTime.now().toIso8601String();
-                //         // widget.db.insert(Bookmark(categoryId:1, name: "XD", url:"XD_URL", date: _date, recentUpdate: _date).toMap(), 'Bookmarks');
-                //         // this.getData();
-                //       },
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -230,30 +196,15 @@ class _HomePageState extends State<HomePage>{
                 padding: const EdgeInsets.fromLTRB(1, 5, 1, 2),
                 child: CustomListTile(bookmark: recent_bookmarks[index],openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile,),
               ),
-              // Container(
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(2.0),
-              //     child: Card(
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(20.0),
-              //         child: Center(
-              //           child: Text(
-              //             recent_bookmarks[index].name.toString(),
-              //             style: TextStyle(color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor),
-              //           )
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ),
           ):Container():Container(),
+
           Container(
-            // height: MediaQuery.of(context).size.height*0.054,
             color: Colors.transparent,
             padding: const EdgeInsets.fromLTRB(10,0,10,0),
             child: Card(
-              color: ThemeProvider.themeOf(context).id=='dark_theme'?Theme.of(context).primaryColor.withOpacity(0.2):Theme.of(context).primaryColor,
+              color: Colors.transparent,
+              shadowColor: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -283,7 +234,7 @@ class _HomePageState extends State<HomePage>{
                             "Kategorie:",
                             style: TextStyle(
                               fontSize: 25.0,
-                              fontWeight: FontWeight.w300,
+                              // fontWeight: FontWeight.w500,
                               color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                             ),
                           ),
@@ -291,21 +242,6 @@ class _HomePageState extends State<HomePage>{
                       ),
                     ],
                   ),
-                  // Container(
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: FlatButton(
-                  //       color: Colors.cyan,
-                  //       child: Icon(Icons.add),
-                  //       onPressed: () {
-                  //         print("ADD +");
-                  //         String _date = new DateTime.now().toIso8601String();
-                  //         widget.db.insert(Category(name: "Motoryzacja "+_date, date: _date).toMap(), 'Categories');
-                  //         this.getData();
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -330,19 +266,55 @@ class _HomePageState extends State<HomePage>{
                     padding: const EdgeInsets.all(2.0),
                     child: InkWell(
                       onTap: () => widget.openCategoryPage(categories[index].name, getData),
-                      child: Card(
-                        color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Center(
-                            child: Text(
-                              categories[index].name,
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w300,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                            borderRadius: BorderRadius.all(Radius.circular(10.0), ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor.withOpacity(0.6):Colors.grey.withOpacity(0.5),
+                                spreadRadius: 3,
+                                blurRadius: 5,
+                                offset: Offset(1, 7), // changes position of shadow
                               ),
-                            )
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Center(
+                                    child: Text(
+                                      categories[index].name,
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.w300,
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                      ),
+                                    )
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  gradient: RadialGradient(
+                                    center: Alignment.center,
+                                    radius: 9,
+                                    colors: [
+                                      Colors.red[400],
+                                      Colors.red[600],
+                                      Colors.red[800],
+                                    ]
+                                  ),
+                                  // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.0),bottomRight: Radius.circular(20.0), ),
+                                  borderRadius: BorderRadius.all(Radius.elliptical(50, 100))
+                                )
+                              )
+                            ],
                           ),
                         ),
                       ),

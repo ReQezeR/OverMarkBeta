@@ -193,10 +193,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
           animation: _notifier,
           builder: (context, _) {
             return Transform.translate(
-              offset: Offset(15 * getOffset(id), -8),
+              offset: Offset(15 * getOffset(id), -7),
               child:  Icon(
-                Icons.arrow_drop_up, 
+                Icons.expand_less,
                 color: _targetIndex==id? iconColor: Colors.transparent,
+                size: 23,
               ),
             );
           },
@@ -242,7 +243,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
         selectedFontSize: 5.0,
         unselectedFontSize: 5.0,
         items: [
-          getCustomItem(id: 0,accent: accent, detail: detail, icon: Icons.line_weight, iconColor: Colors.blue[400]),
+          getCustomItem(id: 0,accent: accent, detail: detail, icon: Icons.collections_bookmark, iconColor: Colors.blueAccent.withOpacity(0.8)),
           getCustomItem(id: 1,accent: accent, detail: detail, icon: Icons.home, iconColor: Colors.amber),
           getCustomItem(id: 2,accent: accent, detail: detail, icon: Icons.settings, iconColor: Colors.red),
         ],

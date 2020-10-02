@@ -84,7 +84,7 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                "CategoryPage",
+                widget.categoryName,
                 style: TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 25.0,

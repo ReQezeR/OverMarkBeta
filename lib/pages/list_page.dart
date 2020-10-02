@@ -135,8 +135,8 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
             this.setState(() {});
           },
           leading: Icon(
-            Icons.label_important,
-            color: Colors.blue,
+            Icons.text_fields,
+            color: Colors.blueAccent.withOpacity(0.8),
           ),
           title: RichText(
             text: TextSpan(
@@ -161,6 +161,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
   @override
   Widget build(BuildContext context){
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 25),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -171,6 +172,14 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                 bottomLeft: isInput?Radius.circular(0.0): Radius.circular(20.0),
                 bottomRight: isInput?Radius.circular(0.0): Radius.circular(20.0),
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor.withOpacity(0.6):Colors.grey.withOpacity(0.5),
+                  spreadRadius: 4,
+                  blurRadius: 10,
+                  offset: Offset(0, 0), // changes position of shadow
+                ),
+              ],
             ),
             child: SafeArea(
               child: Container(
@@ -188,10 +197,9 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Icon(
-                                    Icons.line_weight,
+                                    Icons.collections_bookmark,
                                     size: 28,
-                                    // color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
-                                    color: Colors.blue,
+                                    color: Colors.blueAccent.withOpacity(0.8),
                                   ),
                                 ),
                                 Padding(
@@ -212,6 +220,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                               isForm==false?Container(
                                 padding: EdgeInsets.all(0),
                                 child: InkWell(
+                                  focusColor: Colors.transparent,
                                   child: Padding(
                                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                                     child: Container(
@@ -274,11 +283,12 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                     Container(
                       width: MediaQuery.of(context).size.width*0.9,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(5,10,5,10),
+                        padding: const EdgeInsets.fromLTRB(5,15,5,5),
                         child: Material(
                           color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).surfaceColor:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                           child: InkWell(
+                            focusColor: Colors.transparent,
                             borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             onTap: (){
                               changeInputFocus();
@@ -297,7 +307,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                                     onChanged: (param)=>onChange(),
                                     controller: _controller,
                                     decoration: new InputDecoration.collapsed(
-                                      hintText: 'Bookmark'
+                                      hintText: 'Szukaj'
                                     ),
                                     autocorrect: false,
                                     style: TextStyle(

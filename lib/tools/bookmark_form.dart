@@ -32,8 +32,8 @@ class _BookmarkFormState extends State<BookmarkForm>{
     return Container(
        decoration: BoxDecoration(
         color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.grey[900]:Colors.white,
-        borderRadius:BorderRadius.all(Radius.circular(20.0)),
-        border: Border.all(width: 1)
+        borderRadius:BorderRadius.all(Radius.circular(30.0)),
+        border: Border.all(width: 0)
       ),
       width: widget.width,
       // height: widget.height,
@@ -114,7 +114,8 @@ class _BookmarkFormState extends State<BookmarkForm>{
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: RaisedButton(
-                  color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.amber:Colors.blue,
+                  color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.amber:Colors.white,
+                  elevation: 8,
                   onPressed: () async{
                     bool validationFlag = true;
                     if(nameField.textData.length==0){
@@ -157,7 +158,7 @@ class _BookmarkFormState extends State<BookmarkForm>{
                   child: Text(
                     'Dodaj',
                     style: TextStyle(
-                      fontWeight: FontWeight.w300,
+                      fontWeight: FontWeight.w400,
                       fontSize: 20.0,
                       color: Colors.black,
                     ),
@@ -226,7 +227,7 @@ class _CustomInputFieldState extends State<CustomInputField>{
   @override
   Widget build(BuildContext context) {
     Color fieldStatusColor = Colors.red;
-    Color activeColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.amber:Colors.blue;
+    Color activeColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.amber:Colors.blueAccent.withOpacity(0.8);
     Color activeTextColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.white:Colors.black;
 
     return Container(
@@ -242,6 +243,7 @@ class _CustomInputFieldState extends State<CustomInputField>{
           shadowColor: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           child: InkWell(
+            focusColor: Colors.transparent,
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             onTap: () {changeInputFocus();},
             child: SizedBox(
@@ -263,6 +265,7 @@ class _CustomInputFieldState extends State<CustomInputField>{
                     color: Colors.transparent,
                     child: TextFormField(
                       focusNode: inputFocusNode,
+                      cursorColor: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.white:Colors.black,
                       autocorrect: false,
                       decoration: new InputDecoration.collapsed(
                         focusColor: Colors.transparent,
@@ -399,7 +402,7 @@ class _CustomCategoryFieldState extends State<CustomCategoryField>{
           },
           leading: Icon(
             Icons.label_important,
-            color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.cyan[700]:Colors.blue,
+            color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.red[700]:Colors.red,
           ),
           title: RichText(
             text: TextSpan(
@@ -426,7 +429,7 @@ class _CustomCategoryFieldState extends State<CustomCategoryField>{
   @override
   Widget build(BuildContext context) {
     Color fieldStatusColor = Colors.red;
-    Color activeColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.amber:Colors.blue;
+    Color activeColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.amber:Colors.blueAccent.withOpacity(0.8);
     Color activeTextColor = ThemeProvider.themeOf(context).id=='dark_theme'?Colors.white:Colors.black;
 
     return Container(
@@ -439,8 +442,10 @@ class _CustomCategoryFieldState extends State<CustomCategoryField>{
       child: Material(
           color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
           shadowColor: Colors.transparent,
+          elevation: 0,
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           child: InkWell(
+            focusColor: Colors.transparent,
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             onTap: () {changeInputFocus();},
             child: Column(
@@ -463,6 +468,7 @@ class _CustomCategoryFieldState extends State<CustomCategoryField>{
                       child: Container(
                         color: Colors.transparent,
                         child: TextFormField(
+                          cursorColor: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.white:Colors.black,
                           focusNode: inputFocusNode,
                           autocorrect: false,
                           decoration: new InputDecoration.collapsed(

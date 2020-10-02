@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,105 +63,182 @@ class _CustomListTileState extends State<CustomListTile>{
           padding: const EdgeInsets.all(2),
           child: Card(
             color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
-            // color: Colors.transparent,
-            // elevation: 0.0,
+            elevation: 3.0,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(0.0,15.0,0.0,15.0),
+              padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
+
                       Container(
-                        width: 40,
-                        height: 40,
-                        // color: Colors.amber,
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          gradient: RadialGradient(
+                            center: Alignment.center,
+                            radius: 0.6,
+                            colors: [
+                              Colors.amber[400],
+                              Colors.amber[600],
+                              Colors.amber[800],
+                            ]
+                          )
+                        ),
                         child: Center(
                           child: Text(
                             widget.bookmark.id.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: Theme.of(context).brightness == Brightness.light?Colors.black:widget.bookmark.id%2==1?Colors.grey: Colors.grey[200],
+                              fontSize: 20,
+                              color: Theme.of(context).brightness == Brightness.light?Colors.black:Colors.grey[200],
                             ),
                           ),
                         ),
                       ),
+
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5.0,0.0,5.0,0.0),
-                          child: Container(
-                            // color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Expanded(
+                        child: Container(
+                          height: 80,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Container(
+                                  // color: Colors.red,
+                                  height: 40,
                                   child: Container(
-                                    height: 40,
-                                    constraints: BoxConstraints(minWidth: 50,maxWidth: MediaQuery.of(context).size.width*0.25),
-                                    child: Container(
-                                      color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          widget.bookmark.name.toString(),
+                                          style: TextStyle(
+                                            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 25,
+                                          ),
+                                          maxLines: 1,
+
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                Container(
+                                  height: 40,
+                                  // color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                                          child: Icon(
+                                            SimpleLineIcons.link,
+                                            size: 15,
+                                            color: Theme.of(context).brightness == Brightness.light?Colors.black:ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                                          ),
+                                        ),
+                                        Expanded(
                                           child: Text(
-                                            widget.bookmark.name.toString(),
+                                            widget.bookmark.url.toString(),
                                             style: TextStyle(
                                               color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                              fontWeight: FontWeight.w400,
+                                              fontWeight: FontWeight.w300,
                                               fontSize: 15,
                                             ),
                                             maxLines: 1,
-
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 5.0),
-                                    child: Container(
-                                      height: 40,
-                                      color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          // crossAxisAlignment: CrossAxisAlignment.baseline,
-                                          // textBaseline: TextBaseline.alphabetic,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                                              child: Icon(
-                                                SimpleLineIcons.link,
-                                                size: 15,
-                                                color: Theme.of(context).brightness == Brightness.light?Colors.black:ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Center(
-                                                child: Text(
-                                                  widget.bookmark.url.toString(),
-                                                  style: TextStyle(
-                                                    color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 15,
-                                                  ),
-                                                  maxLines: 1,
-                                                )
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+
+                      //       Padding(
+                      //         padding: const EdgeInsets.fromLTRB(5.0,0.0,5.0,0.0),
+                      //         child: Container(
+                      //           // color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
+                      //           child: Row(
+                      //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //             mainAxisSize: MainAxisSize.min,
+                      //             children: <Widget>[
+                      //               Expanded(
+                      //                 child: Container(
+                      //                   height: 40,
+                      //                   constraints: BoxConstraints(minWidth: 50,maxWidth: MediaQuery.of(context).size.width*0.25),
+                      //                   child: Container(
+                      //                     color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
+                      //                     child: Padding(
+                      //                       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                      //                       child: Align(
+                      //                         alignment: Alignment.centerLeft,
+                      //                         child: Text(
+                      //                           widget.bookmark.name.toString(),
+                      //                           style: TextStyle(
+                      //                             color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                      //                             fontWeight: FontWeight.w400,
+                      //                             fontSize: 15,
+                      //                           ),
+                      //                           maxLines: 1,
+
+                      //                         ),
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //               Expanded(
+                      //                 child: Padding(
+                      //                   padding: const EdgeInsets.only(left: 5.0),
+                      //                   child: Container(
+                      //                     height: 40,
+                      //                     color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
+                      //                     child: Padding(
+                      //                       padding: const EdgeInsets.all(5.0),
+                      //                       child: Row(
+                      //                         mainAxisSize: MainAxisSize.min,
+                      //                         // crossAxisAlignment: CrossAxisAlignment.baseline,
+                      //                         // textBaseline: TextBaseline.alphabetic,
+                      //                         children: <Widget>[
+                      //                           Padding(
+                      //                             padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                      //                             child: Icon(
+                      //                               SimpleLineIcons.link,
+                      //                               size: 15,
+                      //                               color: Theme.of(context).brightness == Brightness.light?Colors.black:ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
+                      //                             ),
+                      //                           ),
+                      //                           Expanded(
+                      //                             child: Center(
+                      //                               child: Text(
+                      //                                 widget.bookmark.url.toString(),
+                      //                                 style: TextStyle(
+                      //                                   color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
+                      //                                   fontWeight: FontWeight.w400,
+                      //                                   fontSize: 15,
+                      //                                 ),
+                      //                                 maxLines: 1,
+                      //                               )
+                      //                             ),
+                      //                           ),
+                      //                         ],
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
                               ],
                             ),
                           ),
@@ -198,11 +276,13 @@ class _CustomListTileState extends State<CustomListTile>{
                             child: InkWell(
                               onTap: () =>widget.openWebPage(widget.bookmark.url.toString()),
                               child: Card(
+                                margin: EdgeInsets.fromLTRB(5,0,5,0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
-                                  side: BorderSide(color: Colors.blue, width: 3)
+                                  side: BorderSide(color: Colors.transparent, width: 0)
                                 ),
-                                color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor:Colors.blue,
+                                color: Theme.of(context).brightness == Brightness.light?Colors.transparent:Colors.black38,
+                                shadowColor: Colors.transparent,
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
                                   child:Center(
@@ -212,7 +292,8 @@ class _CustomListTileState extends State<CustomListTile>{
                                         Padding(
                                           padding: const EdgeInsets.only(right: 5.0),
                                           child: Icon(
-                                            Icons.web
+                                            Icons.web,
+                                            color: Colors.blueAccent.withOpacity(0.8),
                                           ),
                                         ),
                                         Text(
@@ -234,11 +315,13 @@ class _CustomListTileState extends State<CustomListTile>{
                             child: InkWell(
                               onTap: () => widget.openDetailPage(widget.bookmark, widget.refresh),
                               child: Card(
+                                margin: EdgeInsets.fromLTRB(5,0,5,0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
-                                  side: BorderSide(color: Colors.green, width: 3)
+                                  side: BorderSide(color: Colors.transparent, width: 0)
                                 ),
-                                color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor:Colors.green,
+                                color: Theme.of(context).brightness == Brightness.light?Colors.transparent:Colors.black38,
+                                shadowColor: Colors.transparent,
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
                                   child:Center(
@@ -248,7 +331,8 @@ class _CustomListTileState extends State<CustomListTile>{
                                         Padding(
                                           padding: const EdgeInsets.only(right: 5.0),
                                           child: Icon(
-                                            Icons.info_outline
+                                            Icons.info_outline,
+                                            color: Colors.orange,
                                           ),
                                         ),
                                         Text(
