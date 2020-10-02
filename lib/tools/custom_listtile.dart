@@ -11,7 +11,7 @@ import 'package:theme_provider/theme_provider.dart';
 class CustomListTile extends StatefulWidget {
   CustomListTile({Key key, this.bookmark, this.openWebPage, this.openDetailPage, this.onChange, this.refresh}) : super(key: key);
   final Bookmark bookmark;
-  final Function(String)openWebPage;
+  final Function(Bookmark)openWebPage;
   final Function (Bookmark, Function)openDetailPage;
   final Function onChange;
   final Function refresh;
@@ -161,84 +161,6 @@ class _CustomListTileState extends State<CustomListTile>{
                                     ),
                                   ),
                                 ),
-
-                      //       Padding(
-                      //         padding: const EdgeInsets.fromLTRB(5.0,0.0,5.0,0.0),
-                      //         child: Container(
-                      //           // color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
-                      //           child: Row(
-                      //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //             mainAxisSize: MainAxisSize.min,
-                      //             children: <Widget>[
-                      //               Expanded(
-                      //                 child: Container(
-                      //                   height: 40,
-                      //                   constraints: BoxConstraints(minWidth: 50,maxWidth: MediaQuery.of(context).size.width*0.25),
-                      //                   child: Container(
-                      //                     color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
-                      //                     child: Padding(
-                      //                       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                      //                       child: Align(
-                      //                         alignment: Alignment.centerLeft,
-                      //                         child: Text(
-                      //                           widget.bookmark.name.toString(),
-                      //                           style: TextStyle(
-                      //                             color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                      //                             fontWeight: FontWeight.w400,
-                      //                             fontSize: 15,
-                      //                           ),
-                      //                           maxLines: 1,
-
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //               Expanded(
-                      //                 child: Padding(
-                      //                   padding: const EdgeInsets.only(left: 5.0),
-                      //                   child: Container(
-                      //                     height: 40,
-                      //                     color: Theme.of(context).brightness == Brightness.light?Colors.blueGrey[50]:Colors.black38,
-                      //                     child: Padding(
-                      //                       padding: const EdgeInsets.all(5.0),
-                      //                       child: Row(
-                      //                         mainAxisSize: MainAxisSize.min,
-                      //                         // crossAxisAlignment: CrossAxisAlignment.baseline,
-                      //                         // textBaseline: TextBaseline.alphabetic,
-                      //                         children: <Widget>[
-                      //                           Padding(
-                      //                             padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                      //                             child: Icon(
-                      //                               SimpleLineIcons.link,
-                      //                               size: 15,
-                      //                               color: Theme.of(context).brightness == Brightness.light?Colors.black:ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
-                      //                             ),
-                      //                           ),
-                      //                           Expanded(
-                      //                             child: Center(
-                      //                               child: Text(
-                      //                                 widget.bookmark.url.toString(),
-                      //                                 style: TextStyle(
-                      //                                   color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,  
-                      //                                   fontWeight: FontWeight.w400,
-                      //                                   fontSize: 15,
-                      //                                 ),
-                      //                                 maxLines: 1,
-                      //                               )
-                      //                             ),
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //       ),
                               ],
                             ),
                           ),
@@ -274,7 +196,7 @@ class _CustomListTileState extends State<CustomListTile>{
                         children: <Widget>[
                           Expanded(
                             child: InkWell(
-                              onTap: () =>widget.openWebPage(widget.bookmark.url.toString()),
+                              onTap: () =>widget.openWebPage(widget.bookmark),
                               child: Card(
                                 margin: EdgeInsets.fromLTRB(5,0,5,0),
                                 shape: RoundedRectangleBorder(

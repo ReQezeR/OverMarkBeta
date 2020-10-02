@@ -12,7 +12,7 @@ import 'package:theme_provider/theme_provider.dart';
 class CategoryPage extends StatefulWidget{
   final String categoryName;
   final DbProvider db;
-  final Function(String)openWebPage;
+  final Function(Bookmark)openWebPage;
   final Function (Bookmark, Function)openDetailPage;
   final bool isGradient;
   final Function getGradient;

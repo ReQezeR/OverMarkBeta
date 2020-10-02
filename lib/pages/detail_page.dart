@@ -368,7 +368,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
-                              "Edytowano:",
+                              "Użyto:",
                               style: TextStyle(
                                 fontWeight: FontWeight.w300,
                                 fontSize: 25.0,

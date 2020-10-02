@@ -12,7 +12,7 @@ import 'package:theme_provider/theme_provider.dart';
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.db, this.openWebPage, this.openCategoryPage, this.openDetailPage}) : super(key: key);
   final DbProvider db;
-  final Function(String)openWebPage;
+  final Function(Bookmark)openWebPage;
   final Function(String, Function) openCategoryPage;
   final Function (Bookmark, Function)openDetailPage;
 

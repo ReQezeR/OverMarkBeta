@@ -64,20 +64,31 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
     super.dispose();
   }
 
+  void updateTime(Bookmark b){
+    String _date = new DateTime.now().toIso8601String();
+    b.recentUpdate = _date;
+    dbProvider.update(b.toMap(), 'Bookmarks');
+  }
+
   void _initAnimationController(){
     _indicatorController = AnimationController(vsync: this, duration: Duration(milliseconds: 400));
   }
 
-  void openWebPage(String url) async{
+  void openWebPage(Bookmark bookmark) async{
+    String url = bookmark.url.toString();
     var web = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeConsumer(child: WebPage(url: url))));
+    updateTime(bookmark);
+    setState(() {});
   }
 
   void openCategoryPage(String categoryName, Function refresh) async{
-    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ThemeConsumer(child: CategoryPage(db: dbProvider, categoryName: categoryName, openWebPage: openWebPage, openDetailPage: openDetailPage, getGradient: getGradient, isGradient: isGradient, refresh: refresh,))));
+    var category = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ThemeConsumer(child: CategoryPage(db: dbProvider, categoryName: categoryName, openWebPage: openWebPage, openDetailPage: openDetailPage, getGradient: getGradient, isGradient: isGradient, refresh: refresh,))));
   }
   
   void openDetailPage(Bookmark bookmark, Function refresh) async{
-    var web = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeConsumer(child: DetailPage(db:dbProvider, bookmark: bookmark, isGradient: isGradient, getGradient: getGradient, refresh: refresh,))));
+    var detail = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeConsumer(child: DetailPage(db:dbProvider, bookmark: bookmark, isGradient: isGradient, getGradient: getGradient, refresh: refresh,))));
+    updateTime(bookmark);
+    setState(() {});
   }
 
 

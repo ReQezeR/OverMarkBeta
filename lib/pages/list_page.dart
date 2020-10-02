@@ -12,7 +12,7 @@ import 'package:theme_provider/theme_provider.dart';
 class ListPage extends StatefulWidget {
   ListPage({Key key, this.db, this.openWebPage, this.openDetailPage}) : super(key: key);
   final DbProvider db;
-  final Function(String)openWebPage;
+  final Function(Bookmark)openWebPage;
   final Function (Bookmark, Function)openDetailPage;
 
   @override
@@ -93,14 +93,14 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
   void searchForData() async{
     var temp = await widget.db.search('Bookmarks', 'name', _controller.text);
     this.bookmarks = toBookmarks(temp);
-    String _date = new DateTime.now().toIso8601String();
-    for(Bookmark b in this.bookmarks){
-      print(b.toMap().toString());
-      b.recentUpdate = _date;
-      print(b.toMap().toString());
-      widget.db.update(b.toMap(), 'Bookmarks');
-    }
-    this.setState(() {});
+    // String _date = new DateTime.now().toIso8601String();
+    // for(Bookmark b in this.bookmarks){
+    //   print(b.toMap().toString());
+    //   b.recentUpdate = _date;
+    //   print(b.toMap().toString());
+    //   widget.db.update(b.toMap(), 'Bookmarks');
+    // }
+    // this.setState(() {});
   }
 
   void onChange(){
