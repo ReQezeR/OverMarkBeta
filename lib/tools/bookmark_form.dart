@@ -149,10 +149,11 @@ class _BookmarkFormState extends State<BookmarkForm>{
                     if(validationFlag==true){
                       String _date = new DateTime.now().toIso8601String();
                       widget.db.insert(Bookmark(categoryId:categoryField.categoryData.id, name: nameField.textData, url:urlField.textData, date: _date, recentUpdate: _date).toMap(), 'Bookmarks');
+                      this.setState(() {});
+                      FocusScope.of(context).unfocus();
+                      widget.closeForm();
+                      this.setState(() {});
                     }
-                    this.setState(() {});
-                    FocusScope.of(context).unfocus();
-                    widget.closeForm();
                     this.setState(() {});
                   },
                   child: Text(
