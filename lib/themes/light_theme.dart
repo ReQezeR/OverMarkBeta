@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
-import 'package:overmark/themes/theme_options.dart';
+import 'package:OverMark/themes/theme_options.dart';
 
 
 AppTheme customLightTheme() {

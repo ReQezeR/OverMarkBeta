@@ -4,8 +4,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:overmark/databases/bookmark.dart';
-import 'package:overmark/themes/theme_options.dart';
+import 'package:OverMark/databases/bookmark.dart';
+import 'package:OverMark/themes/theme_options.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class CustomListTile extends StatefulWidget {

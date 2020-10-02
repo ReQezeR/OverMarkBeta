@@ -3,16 +3,16 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:overmark/databases/bookmark.dart';
-import 'package:overmark/databases/db_provider.dart';
-import 'package:overmark/pages/category_page.dart';
-import 'package:overmark/pages/detail_page.dart';
-import 'package:overmark/pages/home_page.dart';
-import 'package:overmark/pages/list_page.dart';
-import 'package:overmark/pages/settings_page.dart';
-import 'package:overmark/pages/web_page.dart';
-import 'package:overmark/themes/theme_options.dart';
-import 'package:overmark/tools/custom_pageview.dart';
+import 'package:OverMark/databases/bookmark.dart';
+import 'package:OverMark/databases/db_provider.dart';
+import 'package:OverMark/pages/category_page.dart';
+import 'package:OverMark/pages/detail_page.dart';
+import 'package:OverMark/pages/home_page.dart';
+import 'package:OverMark/pages/list_page.dart';
+import 'package:OverMark/pages/settings_page.dart';
+import 'package:OverMark/pages/web_page.dart';
+import 'package:OverMark/themes/theme_options.dart';
+import 'package:OverMark/tools/custom_pageview.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:overmark/pages/main_page.dart';
-import 'package:overmark/themes/dark_theme.dart';
-import 'package:overmark/themes/light_theme.dart';
+import 'package:OverMark/pages/main_page.dart';
+import 'package:OverMark/themes/dark_theme.dart';
+import 'package:OverMark/themes/light_theme.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 void main() {
