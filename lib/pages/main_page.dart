@@ -204,11 +204,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
           animation: _notifier,
           builder: (context, _) {
             return Transform.translate(
-              offset: Offset(15 * getOffset(id), -7),
+              offset: Offset(15 * getOffset(id), -4),
               child:  Icon(
                 Icons.expand_less,
                 color: _targetIndex==id? iconColor: Colors.transparent,
-                size: 23,
+                size: 15,
               ),
             );
           },

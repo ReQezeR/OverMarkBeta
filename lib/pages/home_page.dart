@@ -143,51 +143,42 @@ class _HomePageState extends State<HomePage>{
                   Container(
                     height: 80,
                     color: Colors.transparent,
-                    padding: const EdgeInsets.fromLTRB(10,10,10,0),
-                    child: Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:10.0, right:10.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: Center(
-                                    child: Icon(
-                                      SimpleLineIcons.fire,
-                                      size: 30,
-                                      color: Colors.orange[400],
-                                    ),
-                                  ),
+                          Center(
+                            child: Container(
+                              width: 60,
+                              height: 60,
+                              child: Center(
+                                child: Icon(
+                                  Icons.whatshot,
+                                  size: 30,
+                                  color: Colors.orange[400],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10, right: 10),
-                                child: Center(
-                                  child: Text(
-                                    "Ostatnie zakładki:",
-                                    style: TextStyle(
-                                      fontSize: 30.0,
-                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                                    ),
-                                  ),
-                                )
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Center(
+                              child: Text(
+                                "Ostatnie zakładki:",
+                                style: TextStyle(
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.w300,
+                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                ),
                               ),
-                            ],
+                            )
                           ),
                         ],
                       ),
                     ),
                   ),
                   recent_bookmarks.length>0?Container(
+                    margin: const EdgeInsets.all(0),
                     padding: const EdgeInsets.fromLTRB(10,0,10,5),
                     child: ListView.builder(
                       padding: const EdgeInsets.all(0),
@@ -206,46 +197,35 @@ class _HomePageState extends State<HomePage>{
                   Container(
                     height: 80,
                     color: Colors.transparent,
-                    padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                    child: Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:10.0, right:10.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: Center(
-                                    child: Icon(
-                                      SimpleLineIcons.folder,
-                                      size: 30,
-                                      color: Colors.deepOrange[800],
-                                    ),
-                                  ),
+                          Center(
+                            child: Container(
+                              width: 60,
+                              height: 60,
+                              child: Center(
+                                child: Icon(
+                                  Icons.folder,
+                                  size: 30,
+                                  color: Colors.deepOrange[800],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10, right: 10),
-                                child: Center(
-                                  child: Text(
-                                    "Kategorie:",
-                                    style: TextStyle(
-                                      fontSize: 30.0,
-                                      // fontWeight: FontWeight.w500,
-                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                                    ),
-                                  ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Center(
+                              child: Text(
+                                "Kategorie:",
+                                style: TextStyle(
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.w300,
+                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
@@ -253,9 +233,9 @@ class _HomePageState extends State<HomePage>{
                   ),
 
                   categories.length>0?Container(
-                    padding: const EdgeInsets.fromLTRB(10,0,10,0),
+                    padding: const EdgeInsets.fromLTRB(10,0,10,10),
                     child: GridView.builder(
-                      padding: const EdgeInsets.all(0.0),
+                      padding: const EdgeInsets.only(bottom: 10.0),
                       physics: ClampingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
@@ -282,7 +262,7 @@ class _HomePageState extends State<HomePage>{
                                       color: ThemeProvider.themeOf(context).id=='dark_theme'?ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor.withOpacity(0.6):Colors.grey.withOpacity(0.5),
                                       spreadRadius: 3,
                                       blurRadius: 5,
-                                      offset: Offset(1, 7), // changes position of shadow
+                                      offset: Offset(1, 3), // changes position of shadow
                                     ),
                                   ],
                                 ),

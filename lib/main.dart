@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:OverMark/pages/main_page.dart';
 import 'package:OverMark/themes/dark_theme.dart';
 import 'package:OverMark/themes/light_theme.dart';
+import 'package:flutter/services.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 void main() {
+   SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.black,
+    statusBarColor: Colors.black38,
+  ));
   runApp(MyApp());
 }
 
@@ -16,7 +22,6 @@ class MyApp extends StatelessWidget {
       saveThemesOnChange: true,
       loadThemeOnInit: true,
       defaultThemeId: 'dark_theme', 
-      // defaultThemeId: 'light_theme',
       themes: [
         customLightTheme(),
         customDarkTheme(),

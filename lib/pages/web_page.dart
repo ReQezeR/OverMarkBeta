@@ -55,21 +55,33 @@ class _WebPageState extends State<WebPage>{
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 10.0),
-              child: InkWell(
-                onTap: ()=>_controller?.loadUrl("https://"+widget.url),
-                child:Icon(
-                  Icons.home,
-                  color: Colors.blue,
+              child: Container(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: ()=>_controller?.loadUrl("https://"+widget.url),
+                  child:Padding(
+                    padding: const EdgeInsets.fromLTRB(20,0,20,0),
+                    child: Icon(
+                      Icons.home,
+                      color: Colors.blue,
+                    ),
+                  ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: InkWell(
-                onTap: ()=>_controller?.reload(),
-                child:Icon(
-                  Icons.refresh,
-                  color: Colors.green,
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Container(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: ()=>_controller?.reload(),
+                  child:Padding(
+                    padding: const EdgeInsets.fromLTRB(20,0,20,0),
+                    child: Icon(
+                      Icons.refresh,
+                      color: Colors.green,
+                    ),
+                  ),
                 ),
               ),
             ),

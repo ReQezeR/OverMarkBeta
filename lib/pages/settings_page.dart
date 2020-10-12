@@ -105,24 +105,29 @@ class _SettingsPageState extends State<SettingsPage>{
                         height: 80,
                         color: Colors.transparent,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: Row(
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20.0, right: 10.0),
-                                child: Icon(
-                                  SimpleLineIcons.pencil,
-                                  size: 25.0
-                                  // color: Colors.green,
+                              Center(
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.palette,
+                                      size: 30.0,
+                                      color: Theme.of(context).brightness == Brightness.light?Colors.black:Colors.tealAccent,
+                                    ),
+                                  ),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.only(left: 10.0),
                                 child: Text(
                                   "Motyw:",
                                   style: TextStyle(
                                     fontSize: 30.0,
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w300,
                                     color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                   ),
                                 )),
@@ -148,11 +153,7 @@ class _SettingsPageState extends State<SettingsPage>{
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
-                                child: Icon(
-                                  SimpleLineIcons.bulb,
-                                  size: 25,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
-                                ),
+                                child: Theme.of(context).brightness == Brightness.light?Icon(Icons.wb_sunny, color:Colors.grey[800], size:25):Icon(Icons.brightness_3, color:Colors.amber, size:25),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(5.0),
@@ -197,9 +198,9 @@ class _SettingsPageState extends State<SettingsPage>{
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Icon(
-                                  Icons.palette,
+                                  Icons.gradient,
                                   size: 25,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor,
+                                  color: Theme.of(context).brightness == Brightness.light?Colors.grey[800]:Colors.lightBlue[700],
                                 ),
                               ),
                               Padding(
@@ -237,27 +238,33 @@ class _SettingsPageState extends State<SettingsPage>{
                   child: Column(
                     children: [
                       Container(
+                        margin: EdgeInsets.fromLTRB(0,10,0,10),
                         height: 80,
                         color: Colors.transparent,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: Row(
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20.0, right: 10.0),
-                                child: Icon(
-                                  SimpleLineIcons.layers,
-                                  size: 25.0,
-                                  // color: Colors.indigoAccent,
+                              Center(
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  child: Center(
+                                    child: Icon(
+                                      SimpleLineIcons.layers,
+                                      size: 25.0,
+                                      color: Theme.of(context).brightness == Brightness.light?Colors.black:Colors.tealAccent,
+                                    ),
+                                  ),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.only(left: 10.0),
                                 child: Text(
                                   "Baza danych:",
                                   style: TextStyle(
                                     fontSize: 30.0,
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w300,
                                     color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                   ),
                                 )),
