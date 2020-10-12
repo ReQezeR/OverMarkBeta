@@ -27,7 +27,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final dbProvider = DbProvider.instance;
-  ValueNotifier<double> _notifier = ValueNotifier<double>(0);
+  ValueNotifier<double> _notifier = ValueNotifier<double>(1);
   AnimationController _indicatorController;
   NotifyingPageView customPageView;
 
@@ -169,15 +169,16 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin{
       if(_notifier.value<=1.5 && _notifier.value>0.5){
         return _notifier.value-pageNumber;
       }
+      else if (_notifier.value>1.5) return 0.5;
+      else if (_notifier.value<0.5) return -0.5;
       else return 0.0;
     }
     else if(pageNumber == 2){
       if(_notifier.value<=2.0 && _notifier.value>1.5){
         return _notifier.value-pageNumber;
       }
-      else return 0.0;
+      else return -0.5;
     }
-
     print(_notifier.value);
     return 0.0;
   }
