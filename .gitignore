@@ -44,3 +44,4 @@ app.*.map.json
 /.vscode
 /android
 /ios
+pubspec.lock

@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:OverMark/pages/main_page.dart';
 import 'package:OverMark/themes/dark_theme.dart';
@@ -11,6 +12,9 @@ void main() {
     systemNavigationBarColor: Colors.black,
     statusBarColor: Colors.black38,
   ));
+  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize without device test ids.
+  Admob.initialize();
   runApp(MyApp());
 }
 

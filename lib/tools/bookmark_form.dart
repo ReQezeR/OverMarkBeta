@@ -25,10 +25,19 @@ class _BookmarkFormState extends State<BookmarkForm>{
   bool categoryFieldValidation = true;
 
   @override
-  Widget build(BuildContext context){
+  void initState() {
     nameField = CustomInputField(width: widget.width, height: widget.height, name: "Nazwa", icon: Icons.details, validate:nameFieldValidation);
     urlField = CustomInputField(width: widget.width, height: widget.height, name: "URL", icon: Icons.insert_link, validate:urlFieldValidation);
     categoryField = CustomCategoryField(width: widget.width, height: widget.height, name: "Kategoria", icon: Icons.category, db: widget.db, validate:categoryFieldValidation);
+    super.initState();
+  }
+
+// TODO: zdebugować walidacje formularza
+  @override
+  Widget build(BuildContext context){
+    nameField = CustomInputField(textData: nameField.textData, width: widget.width, height: widget.height, name: "Nazwa", icon: Icons.details, validate:nameFieldValidation);
+    urlField = CustomInputField(textData: urlField.textData, width: widget.width, height: widget.height, name: "URL", icon: Icons.insert_link, validate:urlFieldValidation);
+    categoryField = CustomCategoryField(textData: categoryField.textData, width: widget.width, height: widget.height, name: "Kategoria", icon: Icons.category, db: widget.db, validate:categoryFieldValidation);
     return Container(
        decoration: BoxDecoration(
         color: ThemeProvider.themeOf(context).id=='dark_theme'?Colors.grey[900]:Colors.white,
@@ -176,7 +185,7 @@ class _BookmarkFormState extends State<BookmarkForm>{
 
 
 class CustomInputField extends StatefulWidget {
-  CustomInputField({Key key,this.name, this.icon, this.width, this.height, this.validate}) : super(key: key);
+  CustomInputField({Key key, this.textData, this.name, this.icon, this.width, this.height, this.validate}) : super(key: key);
   final double width;
   final double height;
   final String name;
@@ -319,7 +328,7 @@ class _CustomInputFieldState extends State<CustomInputField>{
 
 
 class CustomCategoryField extends StatefulWidget {
-  CustomCategoryField({Key key,this.name, this.icon, this.width, this.height, this.db, this.validate}) : super(key: key);
+  CustomCategoryField({Key key, this.textData, this.name, this.icon, this.width, this.height, this.db, this.validate}) : super(key: key);
   final double width;
   final double height;
   final String name;
