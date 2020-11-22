@@ -414,7 +414,6 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                         itemCount: 100,//bookmarks.length,
                         itemBuilder: (BuildContext context, int index){
                           if(index != 0 && index %15 ==0){
-                            is_banner_ready = true;
                             return Column(
                               children: [
                                 Padding(
