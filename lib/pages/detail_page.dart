@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:OverMark/services/admob_provider.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:OverMark/databases/bookmark.dart';
@@ -90,326 +92,348 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
           ):BoxDecoration(
             color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
           ),
-          child: Container(
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  color: tileBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Icon(
-                              Icons.title,
-                              color: Colors.amber,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "Nazwa:",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 25.0,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                              ),
-                            ),
-                          )
-                        ),
-                        Expanded(
-                            child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                widget.bookmark.name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 25.0,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Container(
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        height: 100,
+                        color: tileBackground,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Icon(
+                                    Icons.title,
+                                    color: Colors.amber,
+                                  ),
                                 ),
                               ),
-                            )
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  color: tileBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Icon(
-                              SimpleLineIcons.key,
-                              color: Colors.amber,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "Identyfikator:",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 25.0,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    "Nazwa:",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Schyler',
+                                      fontSize: 25.0,
+                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                    ),
+                                  ),
+                                )
                               ),
-                            ),
-                          )
-                        ),
-                        Expanded(
-                            child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                widget.bookmark.id.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 25.0,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                              Expanded(
+                                  child: Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      widget.bookmark.name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 25.0,
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                      ),
+                                    ),
+                                  )
                                 ),
                               ),
-                            )
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  color: tileBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Icon(
-                              SimpleLineIcons.link,
-                              color: Colors.amber,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "URL:",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 25.0,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                              ),
-                            ),
-                          )
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                widget.bookmark.url,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 25.0,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      ),
+                      // Container(
+                      //   color: tileBackground,
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(10.0),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //       children: <Widget>[
+                      //         Container(
+                      //           child: Padding(
+                      //             padding: const EdgeInsets.all(10.0),
+                      //             child: Icon(
+                      //               SimpleLineIcons.key,
+                      //               color: Colors.amber,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         Container(
+                      //           child: Padding(
+                      //             padding: const EdgeInsets.all(10.0),
+                      //             child: Text(
+                      //               "Identyfikator:",
+                      //               style: TextStyle(
+                      //                 fontWeight: FontWeight.w300,
+                      //                 fontSize: 25.0,
+                      //                 color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      //               ),
+                      //             ),
+                      //           )
+                      //         ),
+                      //         Expanded(
+                      //             child: Container(
+                      //             child: Padding(
+                      //               padding: const EdgeInsets.all(10.0),
+                      //               child: Text(
+                      //                 widget.bookmark.id.toString(),
+                      //                 style: TextStyle(
+                      //                   fontWeight: FontWeight.w300,
+                      //                   fontSize: 25.0,
+                      //                   color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      //                 ),
+                      //               ),
+                      //             )
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      Container(
+                        color: tileBackground,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Icon(
+                                    SimpleLineIcons.link,
+                                    color: Colors.amber,
+                                  ),
                                 ),
                               ),
-                            ),
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    "URL:",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 25.0,
+                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                    ),
+                                  ),
+                                )
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      widget.bookmark.url,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 25.0,
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
+                      ),
 
-                Container(
-                  color: tileBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Icon(
-                              SimpleLineIcons.layers,
-                              color: Colors.amber,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "Kategoria:",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 25.0,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
-                              ),
-                            ),
-                          )
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                widget.bookmark.categoryId.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 25.0,
-                                  color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      Container(
+                        color: tileBackground,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Icon(
+                                    SimpleLineIcons.layers,
+                                    color: Colors.amber,
+                                  ),
                                 ),
                               ),
-                            ),
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    "Kategoria:",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 25.0,
+                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                    ),
+                                  ),
+                                )
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      widget.bookmark.categoryId.toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 25.0,
+                                        color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
+                      ),
 
-                Container(
-                  color: tileBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Icon(
-                              SimpleLineIcons.calendar,
-                              color: Colors.amber,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "Utworzono:",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 25.0,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      Container(
+                        color: tileBackground,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Icon(
+                                    SimpleLineIcons.calendar,
+                                    color: Colors.amber,
+                                  ),
+                                ),
                               ),
-                            ),
-                          )
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    widget.bookmark.date.split("T")[0],
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    "Utworzono:",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w300,
-                                      fontSize: 20.0,
+                                      fontSize: 25.0,
                                       color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                     ),
                                   ),
-                                  Text(
-                                    widget.bookmark.date.split("T")[1],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 20.0,
-                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                )
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          widget.bookmark.date.split("T")[0],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 20.0,
+                                            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                          ),
+                                        ),
+                                        Text(
+                                          widget.bookmark.date.split("T")[1],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 20.0,
+                                            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
+                      ),
 
-                Container(
-                  color: tileBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Icon(
-                              SimpleLineIcons.clock,
-                              color: Colors.amber,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "Użyto:",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 25.0,
-                                color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                      Container(
+                        color: tileBackground,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Icon(
+                                    SimpleLineIcons.clock,
+                                    color: Colors.amber,
+                                  ),
+                                ),
                               ),
-                            ),
-                          )
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    widget.bookmark.recentUpdate.split("T")[0],
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    "Użyto:",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w300,
-                                      fontSize: 20.0,
+                                      fontSize: 25.0,
                                       color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
                                     ),
                                   ),
-                                  Text(
-                                    widget.bookmark.recentUpdate.split("T")[1],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 20.0,
-                                      color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                )
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          widget.bookmark.recentUpdate.split("T")[0],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 20.0,
+                                            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                          ),
+                                        ),
+                                        Text(
+                                          widget.bookmark.recentUpdate.split("T")[1],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 20.0,
+                                            color: ThemeProvider.optionsOf<CustomThemeOptions>(context).mainTextColor
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
+                  )
+                ),
+              ),
+              Card(
+                color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AdmobBanner(
+                    nonPersonalizedAds: false,
+                    adUnitId: AdMobStatic.bannerAdUnitId,
+                    adSize: AdmobBannerSize.MEDIUM_RECTANGLE,
+                    listener: (AdmobAdEvent event,Map<String, dynamic> args) {},
+                    onBannerCreated:(AdmobBannerController controller) {},
                   ),
                 ),
-              ],
-            )
+              ),
+            ],
           ),
         ),
       ),

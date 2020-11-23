@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:OverMark/services/admob_provider.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:OverMark/databases/bookmark.dart';
 import 'package:OverMark/databases/category.dart';
@@ -99,6 +101,21 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
               color: ThemeProvider.optionsOf<CustomThemeOptions>(context).accentIconColor,
             ),
             onPressed: () {Navigator.of(context).pop(true);},
+          ),
+        ),
+
+        backgroundColor: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+        bottomNavigationBar: Card(
+          color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AdmobBanner(
+              nonPersonalizedAds: false,
+              adUnitId: AdMobStatic.bannerAdUnitId,
+              adSize: AdmobBannerSize.FULL_BANNER,
+              listener: (AdmobAdEvent event,Map<String, dynamic> args) {},
+              onBannerCreated:(AdmobBannerController controller) {},
+            ),
           ),
         ),
         body: Container(

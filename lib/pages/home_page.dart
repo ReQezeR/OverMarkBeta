@@ -1,3 +1,5 @@
+import 'package:OverMark/services/admob_provider.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:OverMark/databases/bookmark.dart';
@@ -189,7 +191,13 @@ class _HomePageState extends State<HomePage>{
                       itemBuilder: (BuildContext context, int index) => 
                       Padding(
                         padding: const EdgeInsets.fromLTRB(1, 5, 1, 2),
-                        child: CustomListTile(bookmark: recent_bookmarks[index],openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile,),
+                        child: CustomListTile(
+                          bookmark: recent_bookmarks[index],
+                          openWebPage: widget.openWebPage, 
+                          openDetailPage: widget.openDetailPage, 
+                          onChange: toogleOpenTile,
+                          height: 115,
+                        ),
                       ),
                     ),
                   ):Container(),
@@ -308,9 +316,21 @@ class _HomePageState extends State<HomePage>{
                       ),
                     ),
                   ):Container(),
-                  Container(
-                    height: 80,
-                    color: Colors.transparent
+                  Padding(
+                    padding: const EdgeInsets.only(left:10.0, right:10.0),
+                    child: Card(
+                      color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AdmobBanner(
+                          nonPersonalizedAds: false,
+                          adUnitId: AdMobStatic.bannerAdUnitId,
+                          adSize: AdmobBannerSize.ADAPTIVE_BANNER(width: (MediaQuery.of(context).size.width*0.9).toInt()),
+                          listener: (AdmobAdEvent event,Map<String, dynamic> args) {},
+                          onBannerCreated:(AdmobBannerController controller) {},
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
