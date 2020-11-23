@@ -37,35 +37,36 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
   Animation<double> _refreshAnimation;
 
   // AdMob 
-  AdmobInterstitial interstitialAd;
+  bool isAd = false;
+  // AdmobInterstitial interstitialAd;
 
-  void handleEvent(
-      AdmobAdEvent event, Map<String, dynamic> args, String adType) {
-    switch (event) {
-      case AdmobAdEvent.loaded:
-        // showSnackBar('New Admob $adType Ad loaded!');
-        break;
-      case AdmobAdEvent.opened:
-        // showSnackBar('Admob $adType Ad opened!');
-        break;
-      case AdmobAdEvent.closed:
-        // showSnackBar('Admob $adType Ad closed!');
-        break;
-      case AdmobAdEvent.failedToLoad:
-        showSnackBar('Admob $adType failed to load. :(');
-        break;
-      default:
-    }
-  }
+  // void handleEvent(
+  //     AdmobAdEvent event, Map<String, dynamic> args, String adType) {
+  //   switch (event) {
+  //     case AdmobAdEvent.loaded:
+  //       // showSnackBar('New Admob $adType Ad loaded!');
+  //       break;
+  //     case AdmobAdEvent.opened:
+  //       // showSnackBar('Admob $adType Ad opened!');
+  //       break;
+  //     case AdmobAdEvent.closed:
+  //       // showSnackBar('Admob $adType Ad closed!');
+  //       break;
+  //     case AdmobAdEvent.failedToLoad:
+  //       showSnackBar('Admob $adType failed to load. :(');
+  //       break;
+  //     default:
+  //   }
+  // }
 
-  void showSnackBar(String content) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(content),
-        duration: Duration(milliseconds: 1500),
-      ),
-    );
-  }
+  // void showSnackBar(String content) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(content),
+  //       duration: Duration(milliseconds: 1500),
+  //     ),
+  //   );
+  // }
 
   //AdMob end
 
@@ -77,15 +78,6 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
     super.initState();
     _controller = TextEditingController();
     inputFocusNode.addListener(()=>toogleInputFlag());
-
-    interstitialAd = AdmobInterstitial(
-      adUnitId: AdMobStatic.interstitialAdUnitId,
-      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        if (event == AdmobAdEvent.closed) interstitialAd.load();
-        handleEvent(event, args, 'Interstitial');
-      },
-    );
-    interstitialAd.load();
   }
 
   int toogleOpenTile({int id:-1}){
@@ -204,7 +196,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context){ 
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -285,11 +277,10 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                                       ),
                                     ),
                                     onTap: () {
-                                      interstitialAd.show();
-                                      // print("open +");
-                                      // FocusScope.of(context).unfocus();
-                                      // isForm = true;
-                                      // this.setState(() {});
+                                      print("open +");
+                                      FocusScope.of(context).unfocus();
+                                      isForm = true;
+                                      this.setState(() {});
                                     },
                                   ),
                                 ):Container(),
@@ -406,34 +397,40 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                   clipBehavior: Clip.hardEdge,
                   children: <Widget>[
                     Container(
-                      child: ListView.builder(
+                      child: bookmarks.length>0?ListView.builder(
                         padding: const EdgeInsets.all(0),
                         physics: ClampingScrollPhysics(),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         itemCount: 100,//bookmarks.length,
                         itemBuilder: (BuildContext context, int index){
-                          if(index != 0 && index %15 ==0){
+                          if(index != 0 && index %10==0){
                             return Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(1, 5, 1, 2),
-                                  child: Card(
-                                    color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
-                                    elevation: 3.0,
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(10,5,10,5),
-                                      child: Container(
-                                        margin: EdgeInsets.all(5.0),
-                                        child: AdmobBanner(
-                                          adUnitId: AdMobStatic.bannerAdUnitId,
-                                          // 320 x 50
-                                          // 468 x 60
-                                          adSize: AdmobBannerSize.FULL_BANNER,//AdmobBannerSize.ADAPTIVE_BANNER(width: (MediaQuery.of(context).size.width*0.9).toInt()),
-                                          listener: (AdmobAdEvent event,Map<String, dynamic> args) {
-                                            handleEvent(event, args, 'Banner');
-                                          },
-                                          onBannerCreated:(AdmobBannerController controller) {},
+                                  child: AnimatedOpacity(
+                                    duration: Duration(milliseconds: 1200),
+                                    opacity: isAd?1.0:0.0,
+                                    child: Card(
+                                      color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                                      elevation: 3.0,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(10,5,10,5),
+                                        child: Container(
+                                          margin: EdgeInsets.all(5.0),
+                                          child: AdmobBanner(
+                                            nonPersonalizedAds: false,
+                                            adUnitId: AdMobStatic.bannerAdUnitId,
+                                            // 320 x 50
+                                            // 468 x 60
+                                            adSize: AdmobBannerSize.ADAPTIVE_BANNER(width: (MediaQuery.of(context).size.width*0.9).toInt()),
+                                            listener: (AdmobAdEvent event,Map<String, dynamic> args) {
+                                              // handleEvent(event, args, 'Banner');
+                                            },
+                                            onBannerCreated:(AdmobBannerController controller) {setState(() {isAd = true;});},
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -441,17 +438,31 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(1, 5, 1, 2),
-                                  child: CustomListTile(bookmark: bookmarks[index%7], openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile, refresh: getData,),
+                                  child: CustomListTile(
+                                    bookmark: bookmarks[index>=bookmarks.length?index%bookmarks.length:index], 
+                                    openWebPage: widget.openWebPage, 
+                                    openDetailPage: widget.openDetailPage, 
+                                    onChange: toogleOpenTile, 
+                                    refresh: getData,
+                                    height: 115,
+                                  ),
                                 ),
                               ],
                             );
                           }
                           return Padding(
                             padding: const EdgeInsets.fromLTRB(1, 5, 1, 2),
-                            child: CustomListTile(bookmark: bookmarks[index%7], openWebPage: widget.openWebPage, openDetailPage: widget.openDetailPage, onChange: toogleOpenTile, refresh: getData,),
+                            child: CustomListTile(
+                              bookmark: bookmarks[index>=bookmarks.length?index%bookmarks.length:index], 
+                              openWebPage: widget.openWebPage, 
+                              openDetailPage: widget.openDetailPage, 
+                              onChange: toogleOpenTile, 
+                              refresh: getData,
+                              height: 115,
+                            ),
                           );
                         }
-                      ),
+                      ):Container(),
                     ),
                     isForm?Positioned(
                       top: 5,
