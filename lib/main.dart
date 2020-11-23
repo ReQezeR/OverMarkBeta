@@ -13,7 +13,6 @@ void main() {
     statusBarColor: Colors.black38,
   ));
   WidgetsFlutterBinding.ensureInitialized();
-  // Initialize without device test ids.
   Admob.initialize();
   runApp(MyApp());
 }
