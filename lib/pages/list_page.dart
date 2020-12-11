@@ -402,35 +402,31 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin,
                         physics: ClampingScrollPhysics(),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
-                        itemCount: 100,//bookmarks.length,
+                        itemCount: bookmarks.length,
                         itemBuilder: (BuildContext context, int index){
-                          if(index != 0 && index %10==0){
+                          if(index != 0 && index %6==0){
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(1, 5, 1, 2),
-                                  child: AnimatedOpacity(
-                                    duration: Duration(milliseconds: 1200),
-                                    opacity: isAd?1.0:0.0,
-                                    child: Card(
-                                      color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
-                                      elevation: 3.0,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(10,5,10,5),
-                                        child: Container(
-                                          margin: EdgeInsets.all(5.0),
-                                          child: AdmobBanner(
-                                            nonPersonalizedAds: false,
-                                            adUnitId: AdMobStatic.bannerAdUnitId,
-                                            // 320 x 50
-                                            // 468 x 60
-                                            adSize: AdmobBannerSize.ADAPTIVE_BANNER(width: (MediaQuery.of(context).size.width*0.9).toInt()),
-                                            listener: (AdmobAdEvent event,Map<String, dynamic> args) {
-                                              // handleEvent(event, args, 'Banner');
-                                            },
-                                            onBannerCreated:(AdmobBannerController controller) {setState(() {isAd = true;});},
-                                          ),
+                                  child: Card(
+                                    color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                                    elevation: 3.0,
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(10,5,10,5),
+                                      child: Container(
+                                        margin: EdgeInsets.all(5.0),
+                                        child: AdmobBanner(
+                                          nonPersonalizedAds: true,
+                                          adUnitId: AdMobStatic.bannerAdUnitId,
+                                          // 320 x 50
+                                          // 468 x 60
+                                          adSize: AdmobBannerSize.ADAPTIVE_BANNER(width: (MediaQuery.of(context).size.width*0.9).toInt()),
+                                          listener: (AdmobAdEvent event,Map<String, dynamic> args) {
+                                            // handleEvent(event, args, 'Banner');
+                                          },
+                                          onBannerCreated:(AdmobBannerController controller) {setState(() {isAd = true;});},
                                         ),
                                       ),
                                     ),
