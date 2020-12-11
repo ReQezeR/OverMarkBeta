@@ -105,16 +105,18 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
         ),
 
         backgroundColor: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
-        bottomNavigationBar: Card(
-          color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AdmobBanner(
-              nonPersonalizedAds: false,
-              adUnitId: AdMobStatic.bannerAdUnitId,
-              adSize: AdmobBannerSize.FULL_BANNER,
-              listener: (AdmobAdEvent event,Map<String, dynamic> args) {},
-              onBannerCreated:(AdmobBannerController controller) {},
+        bottomNavigationBar: Container(
+          height:85,
+          child: Card(
+            color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+            child: Center(
+              child: AdmobBanner(
+                nonPersonalizedAds: false,
+                adUnitId: AdMobStatic.bannerAdUnitId,
+                adSize: AdmobBannerSize.LARGE_BANNER,
+                listener: (AdmobAdEvent event,Map<String, dynamic> args) {},
+                onBannerCreated:(AdmobBannerController controller) {},
+              ),
             ),
           ),
         ),
@@ -127,6 +129,8 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
             color: ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Container(
                 child: ListView.builder(
@@ -136,7 +140,7 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
                   scrollDirection: Axis.vertical,
                   itemCount: bookmarks.length,
                   itemBuilder: (BuildContext context, int index) => 
-                  ThemeConsumer(child: CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage,openDetailPage:widget.openDetailPage, onChange: toogleOpenTile, refresh: refreshAll,)),
+                  ThemeConsumer(child: CustomListTile(bookmark: bookmarks[index], openWebPage: widget.openWebPage, openDetailPage:widget.openDetailPage, onChange: toogleOpenTile, refresh: refreshAll, height: 120,)),
                 ),
               ),
             ],
