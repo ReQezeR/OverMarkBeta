@@ -421,7 +421,8 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin{
                 ),
               ),
               Card(
-                color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                // color: Theme.of(context).brightness == Brightness.light?Colors.white:ThemeProvider.optionsOf<CustomThemeOptions>(context).backgroundColor,
+                color: Colors.transparent,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: AdmobBanner(
