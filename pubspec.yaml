@@ -28,6 +28,8 @@ dependencies:
   webview_flutter: ^1.0.7
   flutter_launcher_icons: ^0.8.1
   admob_flutter: ^1.0.1
+  firebase_core: ^0.5.2+1
+  firebase_analytics: ^6.2.0
   
   flutter:
     sdk: flutter
