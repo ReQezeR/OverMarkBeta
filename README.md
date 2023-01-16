@@ -2,6 +2,7 @@
 # OverMark
 ## Overview
 Aplikacja na system Android służąca do przechowywania linków. 
+Rozwinięta wersja aplikacji dostępna jest w Google Play pod linkiem: [Apliakacja OverMark](https://play.google.com/store/apps/details?id=com.reqevo.overmark&hl=pl)
 
 ## Description 
 Celem aplikacji jest przechowywanie zakładek zawierających linki użytkownika (adresy url).  
